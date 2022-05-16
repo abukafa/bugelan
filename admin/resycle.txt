@@ -1,0 +1,224 @@
+  <!-- Modal Entri Data-->
+  <div class="modal fade" id="staticBackdropLive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="staticBackdropLiveLabel">Tambah Pengguna Baru</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body">
+          <form role="form" action="user_add.php" method="post">
+            <div class="row">
+              <div class="col-md-4 pr-1">
+                <div class="form-group">
+                  <label class="form-label" for="nisr">NISR</label>
+                  <select type="text" class="form-control form-control-sm" id="nisr" onchange="changeValue(this.value)">
+                    <option value="0">.. pilih ..</option>
+                    <?php 
+                    $brg=mysql_query("select * from santri order by NAMA");
+                    $jsArray = "var sant = new Array();\n";        
+                    while($b=mysql_fetch_array($brg)){
+                    echo '<option value="' . $b['NISR'] . '">' . $b['NISR'] ." - ". $b['NAMA'] . '</option>';
+                    $jsArray .= "sant['" . $b['NISR'] . "'] = {NAMA:'" . addslashes($b['NAMA']) . "',JAB:'".addslashes($b['JABATAN']) . "',LAZ:'".addslashes($b['LAZNAH']) . "'};\n";
+                    }
+                    ?>
+                  </select></td>
+                </div>
+              </div>
+              <div class="col-md-8 pr-1">
+                <div class="form-group">
+                  <label class="form-label" for="nama">Nama</label>
+                  <input type="text" class="form-control form-control-sm" id="nama" disabled>
+                </div>  
+              </div>
+
+              <div class="col-md-4 pr-1"></div>
+              <div class="col-md-8 pr-1">
+                <div class="form-group">
+                <input type="text" class="form-control form-control-sm" id="nama" disabled>
+              </div>
+
+              <div class="col-md-4 pr-1"></div>
+              <div class="col-md-13 pr-1">
+                <div class="form-group">
+                <input type="text" class="form-control form-control-sm" id="nama" disabled="yes">
+              </div> 
+            </div>
+            <script type="text/javascript">    
+              <?php echo $jsArray; ?>  
+              function changeValue(NISR){  
+                document.getElementById('nama').value = sant[NISR].NAMA;
+                document.getElementById('jab').value = sant[NISR].JAB;
+                document.getElementById('laz').value = sant[NISR].LAZ;
+              };  
+            </script>
+            </div>
+            </div>
+
+            <div class="mb-2">
+              <label class="form-label" for="uname">Username</label>
+              <input type="text" class="form-control form-control-sm" id="uname">
+            </div>
+            <div class="mb-2">
+              <label class="form-label" for="pass">Default Password</label> 
+              <input type="text" class="form-control form-control-sm" id="pass" placeholder="Default: 12345678">
+            </div>
+            <div class="mb-2">
+              <label class="form-label" for="akses">Akses</label>   
+              <select class="form-select form-select-sm" id="akses">
+                <option value="-">.. pilih ..</option>
+                <option value="user">USER</option>
+                <option value="supervisor">SUPERVISOR</option>
+                <option value="manager">MANAGER</option>
+              </select>
+            </div>
+            <div class="modal-footer">  
+              <button type="submit" class="btn btn-primary">Add</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>   
+
+
+
+
+  <!------------------------------------------------------------------------------------- data chart
+
+
+          <?php 
+          $koneksi = mysqli_connect("localhost","root","abukafa","smp");
+          $jan = mysqli_query($koneksi,"select sum(if(period='Jan 2021', credit, 0)) as kdt from finance");
+          while($j=mysql_fetch_assoc($jan)){
+          echo $j['kdt'];
+          }
+          ?>,
+          <?php 
+          $feb = mysqli_query($koneksi,"select sum(if(period='Feb 2021', credit, 0)) as kdt from finance");
+          while($f=mysql_fetch_assoc($feb)){
+          echo $f['kdt'];
+          }
+          ?>,
+          <?php 
+          $mar = mysqli_query($koneksi,"select sum(if(period='Mar 2021', credit, 0)) as kdt from finance");
+          while($m=mysql_fetch_assoc($mar)){
+          echo $m['kdt'];
+          }
+          ?>,
+          <?php 
+          $apr = mysqli_query($koneksi,"select sum(if(period='Apr 2021', credit, 0)) as kdt from finance");
+          while($a=mysql_fetch_assoc($apr)){
+          echo $a['kdt'];
+          }
+          ?>,
+          <?php 
+          $may = mysqli_query($koneksi,"select sum(if(period='May 2021', credit, 0)) as kdt from finance");
+          while($ma=mysql_fetch_assoc($may)){
+          echo $ma['kdt'];
+          }
+          ?>,
+          <?php 
+          $jun = mysqli_query($koneksi,"select sum(if(period='Jun 2021', credit, 0)) as kdt from finance");
+          while($jn=mysql_fetch_assoc($jun)){
+          echo $jn['kdt'];
+          }
+          ?>,
+          <?php 
+          $jul = mysqli_query($koneksi,"select sum(if(period='Jul 2021', credit, 0)) as kdt from finance");
+          while($jl=mysql_fetch_assoc($jul)){
+          echo $jl['kdt'];
+          }
+          ?>,
+          <?php 
+          $aug = mysqli_query($koneksi,"select sum(if(period='Aug 2021', credit, 0)) as kdt from finance");
+          while($ag=mysql_fetch_assoc($aug)){
+          echo $ag['kdt'];
+          }
+          ?>,
+          <?php 
+          $sep = mysqli_query($koneksi,"select sum(if(period='Sep 2021', credit, 0)) as kdt from finance");
+          while($s=mysql_fetch_assoc($sep)){
+          echo $s['kdt'];
+          }
+          ?>,
+          <?php 
+          $oct = mysqli_query($koneksi,"select sum(if(period='Oct 2021', credit, 0)) as kdt from finance");
+          while($o=mysql_fetch_assoc($oct)){
+          echo $o['kdt'];
+          }
+          ?>,
+          <?php 
+          $nov = mysqli_query($koneksi,"select sum(if(period='Nov 2021', credit, 0)) as kdt from finance");
+          while($n=mysql_fetch_assoc($nov)){
+          echo $n['kdt'];
+          }
+          ?>,
+          <?php 
+          $dec = mysqli_query($koneksi,"select sum(if(period='Dec 2021', credit, 0)) as kdt from finance");
+          while($d=mysql_fetch_assoc($dec)){
+          echo $d['kdt'];
+          }
+          ?>
+
+
+<!---------------------------------------------------------------------------------------------
+
+
+var canvas = document.getElementById('chart');
+new Chart(canvas, {
+  type: 'line',
+  data: {
+    labels: [
+    '1', 
+    '2', 
+    '3', 
+    '4', 
+    '5'
+    ],
+    datasets: [{
+      label: 'A',
+      yAxisID: 'A',
+      data: [
+      100, 
+      96, 
+      84, 
+      76, 
+      69
+      ]
+    }, {
+      label: 'B',
+      yAxisID: 'B',
+      data: [
+      1, 
+      1, 
+      1, 
+      1, 
+      0
+      ]
+    }]
+  },
+  options: {
+    scales: {
+      yAxes: [{
+        id: 'A',
+        type: 'linear',
+        position: 'left',
+      }, {
+        id: 'B',
+        type: 'linear',
+        position: 'right',
+        ticks: {
+          max: 1,
+          min: 0
+        }
+      }]
+    }
+  }
+});
+
+
+

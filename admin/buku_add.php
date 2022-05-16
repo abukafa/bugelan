@@ -1,0 +1,245 @@
+<?php 
+include 'navbar.php';
+
+$uname = $_SESSION['uname'];
+$admin = mysqli_query($GLOBALS["___mysqli_ston"], "select * from admin where uname='$uname'");
+while($u=mysqli_fetch_array($admin)){
+?>
+
+<link href="../assets/css/bootstrap-datepicker3.min.css" rel="stylesheet"/>
+<script src="../assets/js/jquery.min.js"></script>
+<script src="../assets/js/bootstrap.min.js"></script>
+<script src="../assets/js/bootstrap-datepicker.min.js"></script>
+
+<main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+  <div class="container-fluid">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <h1 class="h2">Transaksi</h1>
+      <div class="btn-toolbar mb-2 mb-md-0">
+        <a  href="buku.php"><button type="button" class="btn btn-sm btn-outline-secondary">
+          <span data-feather="arrow-left"></span>
+          Kembali
+        </button></a>
+      </div>
+    </div>
+
+    <div class="bd-heading align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
+      <form class="row g-2" action="buku_addact.php" method="post">
+        <div class="col-md-2">
+          <label for="inv" class="form-label">Invoice</label>
+          <input type="text" class="form-control" name="inv" id="inv" value="<?php echo $_GET['inv']; ?>" readonly="yes">
+        </div>
+        <div class="col-md-2">
+          <label for="tgl" class="form-label">Tanggal</label>
+          <input type="text" class="form-control" name="tgl" id="tgl" value="<?php echo $_GET['tgl']; ?>" required>
+        </div>
+        <div class="col-md-2">
+          <label for="vend" class="form-label">Vendor</label>
+          <input type="text" class="form-control" name="vend" id="vend" value="<?php echo $_GET['vend']; ?>" required>
+        </div>
+        <div class="col-md-2">
+          <label for="ket" class="form-label">Keterangan</label>
+          <input type="text" class="form-control" name="ket" id="ket" value="<?php echo $_GET['ket']; ?>" required>
+        </div>
+        <div class="col-md-4">
+          <label for="akun" class="form-label">Akun</label>
+          <select type="text" class="form-select" name="akun" required>
+            <option value="-">.. pilih ..</option>
+            <?php 
+            $akun=mysqli_query($GLOBALS["___mysqli_ston"], "select * from account order by code");
+            $jsArray = "var acc = new Array();\n";        
+            while($c=mysqli_fetch_array($akun)){
+            echo '<option value="' . $c['code'] . '">' . $c['code'] ." - ". $c['name'] . '</option>';
+            $jsArray .= "acc['" . $c['code'] . "'] = {name:'" . addslashes($c['name']) . "',unit:'".addslashes($c['unit']) . "'};\n";
+            }
+            ?>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="des" class="form-label">Deskripsi</label>
+          <input type="text" class="form-control" name="des" required>
+        </div>
+        <div class="col-md-2">
+          <label for="jum" class="form-label">Jumlah</label>
+          <input type="text" class="form-control" name="jum" required>
+        </div>
+        <div class="col-md-4">
+        <?php 
+        $inv=$_GET['inv'];
+        $query=mysqli_query($GLOBALS["___mysqli_ston"], "select sum(debit) as dbt, sum(credit) as kdt from finance where inv='$inv' ");
+        while($t=mysqli_fetch_assoc($query)){
+        $total = $t['dbt'] - $t['kdt'];
+        ?>
+        
+        <label for="tot" class="form-label">Total</label>
+        <input type="text" class="form-control" id="tot" value="<?php echo number_format($total,0,'',','); ?>" align="right" readonly="yes">
+        
+        <?php   
+        }
+        ?>
+        </div>
+        <div class="col-12">
+          <input type="submit" class="btn btn-primary btn-sm" value="Simpan" onclick="makeReadonly()"></button>
+          <a href="buku.php" type="button" class="btn btn-secondary btn-sm">Selesai</a>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+<div class="container-fluid">
+  <?php
+    $jum=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT COUNT(*) from finance where inv='$inv' ");
+    $jum=mysqli_result($jum,  0); 
+    echo "<h6 class='fw-bold pt-3 pt-xl-5 pb-2 pb-xl-3'><a style='color:blue'>". $jum ." item</a></h6>";
+  ?>
+  <table class="table ">
+    <tr>
+      <th>Tanggal</th>
+      <th>Vendor</th>
+      <th>Akun</th>
+      <th>Uraian</th>       
+      <th>Debit</th>
+      <th>Kredit</th>
+      <th>Opsi</th>
+    </tr>
+    <?php 
+    if(isset($_GET['inv'])){
+      $inv=mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_GET['inv']);
+      $brg=mysqli_query($GLOBALS["___mysqli_ston"], "select * from finance where inv='$inv' order by id desc");
+    }else{
+      $brg=mysqli_query($GLOBALS["___mysqli_ston"], "select * from finance order by id desc");
+    }
+    $no=1;
+    while($b=mysqli_fetch_array($brg)){
+
+      ?>
+      <tr>
+        <td><?php echo $b['date'] ?></td>
+        <td><?php echo $b['vendor'] ?></td> 
+        <td><?php echo $b['account'] ?></td>
+        <td><?php echo $b['des'] ?></td>   
+        <td align="right"><?php echo number_format($b['debit'],0,'',','); ?></td>   
+        <td align="right"><?php echo number_format($b['credit'],0,'',','); ?></td>
+        <td align="right"> 
+          <a href="#" type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#edit<?php echo $b['id']; ?>"><span data-feather="edit"></span></a>
+          <?php
+          if ($u['access']=="Programmer" or $u['access']=="Manager"){
+          ?>
+          <a onclick="if(confirm('Apakah anda yakin akan menghapus data ini ??')){ location.href='buku_delete.php?id=<?php echo $b['id']; ?>' }" class="btn btn-secondary btn-sm"><span data-feather="trash-2"></span></a>
+          <?php
+          } 
+          ?>
+        </td>
+      </tr>
+      <?php 
+    $no=$no+1;
+    ?>
+
+    <!-- Modal Edit Data-->
+    <div class="modal fade" id="edit<?php echo $b['id']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <?php
+            $id=$b['id'];
+            $query_edit = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM finance WHERE id='$id'");
+            while ($row = mysqli_fetch_array($query_edit)) {  
+            ?>
+            <h5 class="modal-title" id="staticBackdropLiveLabel">Edit Transaksi <?php echo $row['id']; ?></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+
+          <div class="modal-body">
+            <form role="form" action="buku_update.php" method="post">
+              <div class="mb-2">
+                <label class="form-label">Invoice</label>
+                <input type="hidden" class="form-control form-control-sm" name="id" value="<?php echo $row['id']; ?>">
+                <input type="text" class="form-control form-control-sm" name="inv" value="<?php echo $row['inv']; ?>" readonly="yes">
+              </div>
+              <div class="mb-2">
+                <label class="form-label" >Tanggal</label> 
+                <input type="text" class="form-control form-control-sm" name="tgl" id="tgl2" value="<?php echo $row['date']; ?>">
+              </div>
+              <div class="mb-2">
+                <label class="form-label" >Vendor</label>
+                <input type="text" class="form-control form-control-sm" name="vend" value="<?php echo $row['vendor']; ?>">
+              </div>
+              <div class="mb-2">
+                <label class="form-label" >Keterangan</label>
+                <input type="text" class="form-control form-control-sm" name="ket" value="<?php echo $row['remark']; ?>">
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Akun</label> 
+                <select type="text" class="form-select form-select-sm" name="akun">
+                  <option value="<?php echo $row['account']; ?>"><?php echo $row['account']; ?></option>
+                  <?php 
+                  $akun=mysqli_query($GLOBALS["___mysqli_ston"], "select * from account order by code");
+                  $jsArray = "var acc = new Array();\n";        
+                  while($c=mysqli_fetch_array($akun)){
+                  echo '<option value="' . $c['code'] . '">' . $c['code'] ." - ". $c['name'] . '</option>';
+                  $jsArray .= "acc['" . $c['code'] . "'] = {name:'" . addslashes($c['name']) . "',unit:'".addslashes($c['unit']) . "'};\n";
+                  }
+                  ?>
+                </select>
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Deskripsi</label>
+                <input type="textarea" class="form-control form-control-sm" name="des" value="<?php echo $row['des']; ?>">
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Jumlah</label> 
+                <input type="text" class="form-control form-control-sm" name="jum" value="<?php echo $row['debit']+$row['credit']; ?>">
+              </div>
+              <div class="mb-2">
+                <label class="form-label">Admin</label>
+                <input type="textarea" class="form-control form-control-sm" name="adm" value="<?php echo $row['admin']; ?>" readonly="yes">
+              </div>
+              <div class="modal-footer">  
+                <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Batal</button>
+              </div>
+            </form>
+          </div>
+        </div>    
+      </div>
+    </div>
+
+    <?php 
+    }
+    }
+    ?>
+  </table>
+</div>
+
+  <script type="text/javascript">
+    $(function() {
+        $('#tgl').datepicker({ 
+          autoclose: true,
+          todayHighlight: true,
+          format : 'yyyy-mm-dd' 
+        });
+      });
+
+    $(function() {
+        $('#tgl2').datepicker({ 
+          autoclose: true,
+          todayHighlight: true,
+          format : 'yyyy-mm-dd' 
+        });
+      });
+
+    function makeReadonly() {
+      $('#tgl').attr('readonly', true);
+      $('#vend').attr('readonly', true);
+      $('#ket').attr('readonly', true);
+    }
+  </script>
+</main>
+
+<?php 
+}
+?>
+
+<script type="text/javascript">
+    feather.replace({ 'aria-hidden': 'true' })
+</script>
