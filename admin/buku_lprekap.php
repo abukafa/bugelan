@@ -2,7 +2,7 @@
 session_start();
 include 'config.php';
   if(!isset($_SESSION['uname'])){
-    header("location:../index.php");
+    header("location:../index");
     exit;
   }
 

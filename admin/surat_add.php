@@ -19,5 +19,5 @@ $note=$_POST['note'];
 $ket=$_POST['ket'];
 
 mysqli_query($GLOBALS["___mysqli_ston"], "insert into letter values('', '$no', '$lamp', '$hal', '$kpd', '$satu', '$dua', '$tiga', '$ttd1', '$ntd1', '$ttd2', '$ntd2', '$ttd3', '$ntd3', '$ttd4', '$ntd4', '$note', '$ket')");
-header("location:surat.php");
+header("location:surat");
 ?>

@@ -2,7 +2,11 @@
 session_start();
 include 'config.php';
 $id=$_GET['id'];
+$oldFile=$_GET['file'];
+
+unlink('../public/surat/' . $oldFile);
 mysqli_query($GLOBALS["___mysqli_ston"], "delete from letterin where id='$id'")or die(mysqli_error($GLOBALS["___mysqli_ston"]));
-header("Location:suratin.php". $inv);
+header("Location:suratin". $inv);
+
 
  ?>

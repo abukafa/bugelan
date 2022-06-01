@@ -26,6 +26,6 @@ while($name=mysqli_fetch_array($nm)){
 $admin=$name['name'];
 
 mysqli_query($GLOBALS["___mysqli_ston"], "update finance set inv='$inv', date='$tgl', period='$period', account='$akun', vendor='$vend', des='$urai', remark='$ket', debit='$dbt', credit='$kdt', admin='$admin' where id='$no' ");
-header("Location:buku_add.php?tgl=". $tgl ."&vend=". $vend ."&ket=". $ket ."&inv=". $inv);
+header("Location:buku_add?tgl=". $tgl ."&vend=". $vend ."&ket=". $ket ."&inv=". $inv);
 }
 ?>

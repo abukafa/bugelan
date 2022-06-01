@@ -10,12 +10,12 @@ if(mysqli_num_rows($cek)==1 && $lama<>""){
 	if($baru==$ulang){
 		$b =($baru);
 		mysqli_query($GLOBALS["___mysqli_ston"], "update admin set pass='$b' where uname='$user'");
-		header("location:pass.php?pesan=oke");
+		header("location:pass?pesan=oke");
 	}else{
-		header("location:pass.php?pesan=tdksama");
+		header("location:pass?pesan=tdksama");
 	}
 }else{
-	header("location:pass.php?pesan=gagal");
+	header("location:pass?pesan=gagal");
 }
 
  ?>

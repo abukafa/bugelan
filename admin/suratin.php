@@ -16,7 +16,7 @@ while($u=mysqli_fetch_array($admin)){
           </button>
         </div>
         <div class="btn-group me-2">
-          <a  href="surat.php"><button type="button" class="btn btn-sm btn-outline-secondary"><span data-feather="send"></span>
+          <a  href="surat"><button type="button" class="btn btn-sm btn-outline-secondary"><span data-feather="send"></span>
             Surat Keluar
           </button></a>
         </div>
@@ -27,12 +27,12 @@ while($u=mysqli_fetch_array($admin)){
       <table class="table table-striped table-sm">
         <thead>
           <tr>
-            <th>Pengirim</th>
+            <th class="d-none d-sm-table-cell">Pengirim</th>
             <th>No</th>
-            <th>Lamp</th>
-            <th>Perihal</th>
-            <th>Keterangan</th>
-            <th>File</th>
+            <th class="d-none d-md-table-cell">Lamp</th>
+            <th class="d-none d-lg-table-cell">Perihal</th>
+            <th class="d-none d-lg-table-cell">Keterangan</th>
+            <th class="d-none d-xl-table-cell">File</th>
             <th></th>
           </tr>
         </thead>
@@ -43,19 +43,20 @@ while($u=mysqli_fetch_array($admin)){
           $surat=mysqli_query($GLOBALS["___mysqli_ston"], "select * from letterin order by id");
           while($a=mysqli_fetch_array($surat)){
           ?>
-            <td><?php echo $a['sip'] ?></td>
+            <td class="d-none d-sm-table-cell"><?php echo $a['sip'] ?></td>
             <td><?php echo $a['no'] ?></td>
-            <td><?php echo $a['lamp'] ?></td>
-            <td><?php echo $a['hal'] ?></td>
-            <td><?php echo $a['ket'] ?></td>
-            <td><?php echo $a['file'] ?></td>
+            <td class="d-none d-md-table-cell"><?php echo $a['lamp'] ?></td>
+            <td class="d-none d-lg-table-cell"><?php echo $a['hal'] ?></td>
+            <td class="d-none d-lg-table-cell"><?php echo $a['ket'] ?></td>
+            <td class="d-none d-xl-table-cell"><?php echo $a['file'] ?></td>
             <td align="right">
               <!-- float-md-end -->
+              <a href="../public/surat/<?php echo $a['file'] ?>" type="button" class="btn btn-secondary btn-sm" target="_blank"><span data-feather="eye"></span></a>
               <a type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#edit<?php echo $a['id']; ?>"><span data-feather="edit"></span></a>
               <?php
               if ($u['access']=="Programmer" or $u['access']=="Manager"){
               ?>
-              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan Kode : <?php echo $a['id']; ?> ??')){ location.href='suratin_del.php?id=<?php echo $a['id']; ?>' }" class="btn btn-sm btn-secondary"><span data-feather="trash-2"></span></a>
+              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan Kode : <?php echo $a['id']; ?> ??')){ location.href='suratin_del?id=<?= $a['id']; ?>&file=<?= $a['file']; ?>' }" class="d-none d-xl-inline-block btn btn-sm btn-secondary"><span data-feather="trash-2"></span></a>
               <?php
               } 
               ?>
@@ -72,7 +73,7 @@ while($u=mysqli_fetch_array($admin)){
                 </div>
 
                 <div class="modal-body">
-                  <form role="form" action="suratin_edt.php" method="post" enctype="multipart/form-data">
+                  <form role="form" action="suratin_edt" method="post" enctype="multipart/form-data">
                     <?php
 
                     ?>
@@ -95,7 +96,7 @@ while($u=mysqli_fetch_array($admin)){
                     </div>
                     <div class="mb-2">
                       <label class="form-label fw-bold" for="efile">Berkas</label>
-                      <br><img src="../surat/<?php echo $a['file']; ?>" width="100%"><br>
+                      <br><img src="../public/surat/<?php echo $a['file']; ?>" width="100%"><br>
                       <input type="hidden" name="eold" id="eold" value="<?php echo $a['file']; ?>">
                       <input type="file" class="form-control form-control-sm" name="efile" id="efile" accept=".jpg">
                     </div>
@@ -104,7 +105,7 @@ while($u=mysqli_fetch_array($admin)){
                       <input type="textarea" class="form-control form-control-sm" name="eket" value="<?php echo $a['ket']; ?>">
                     </div>
                     <div class="modal-footer">  
-                      <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                      <button type="submit" class="btn btn-primary btn-sm">Save</button>
                       <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
                     </div>
                   </form>
@@ -131,7 +132,7 @@ while($u=mysqli_fetch_array($admin)){
           </div>
 
           <div class="modal-body">
-            <form role="form" action="suratin_add.php" method="post" enctype="multipart/form-data">
+            <form role="form" action="suratin_add" method="post" enctype="multipart/form-data">
               <?php
 
               ?>
@@ -160,7 +161,7 @@ while($u=mysqli_fetch_array($admin)){
                 <input type="textarea" class="form-control form-control-sm" name="ket">
               </div>
               <div class="modal-footer">  
-                <button type="submit" class="btn btn-primary btn-sm">Add</button>
+                <button type="submit" class="btn btn-primary btn-sm">Save</button>
                 <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
               </div>
             </form>

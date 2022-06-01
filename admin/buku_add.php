@@ -16,7 +16,7 @@ while($u=mysqli_fetch_array($admin)){
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Transaksi</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
-        <a  href="buku.php"><button type="button" class="btn btn-sm btn-outline-secondary">
+        <a  href="buku"><button type="button" class="btn btn-sm btn-outline-secondary">
           <span data-feather="arrow-left"></span>
           Kembali
         </button></a>
@@ -24,7 +24,7 @@ while($u=mysqli_fetch_array($admin)){
     </div>
 
     <div class="bd-heading align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
-      <form class="row g-2" action="buku_addact.php" method="post">
+      <form class="row g-2" action="buku_addact" method="post">
         <div class="col-md-2">
           <label for="inv" class="form-label">Invoice</label>
           <input type="text" class="form-control" name="inv" id="inv" value="<?php echo $_GET['inv']; ?>" readonly="yes">
@@ -78,9 +78,9 @@ while($u=mysqli_fetch_array($admin)){
         }
         ?>
         </div>
-        <div class="col-12">
+        <div class="col-12 mt-3">
           <input type="submit" class="btn btn-primary btn-sm" value="Simpan" onclick="makeReadonly()"></button>
-          <a href="buku.php" type="button" class="btn btn-secondary btn-sm">Selesai</a>
+          <a href="buku" type="button" class="btn btn-secondary btn-sm">Selesai</a>
         </div>
       </form>
     </div>
@@ -88,18 +88,17 @@ while($u=mysqli_fetch_array($admin)){
   
 <div class="container-fluid">
   <?php
-    $jum=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT COUNT(*) from finance where inv='$inv' ");
-    $jum=mysqli_result($jum,  0); 
+    $jum=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * from finance where inv='$inv' ");
+    $jum=mysqli_num_rows($jum); 
     echo "<h6 class='fw-bold pt-3 pt-xl-5 pb-2 pb-xl-3'><a style='color:blue'>". $jum ." item</a></h6>";
   ?>
   <table class="table ">
     <tr>
-      <th>Tanggal</th>
+      <th class="d-none d-md-table-cell">Tanggal</th>
       <th>Vendor</th>
       <th>Akun</th>
-      <th>Uraian</th>       
-      <th>Debit</th>
-      <th>Kredit</th>
+      <th class="d-none d-lg-table-cell">Uraian</th>       
+      <th>Jumlah</th>
       <th>Opsi</th>
     </tr>
     <?php 
@@ -114,18 +113,17 @@ while($u=mysqli_fetch_array($admin)){
 
       ?>
       <tr>
-        <td><?php echo $b['date'] ?></td>
+        <td class="d-none d-md-table-cell"><?php echo $b['date'] ?></td>
         <td><?php echo $b['vendor'] ?></td> 
         <td><?php echo $b['account'] ?></td>
-        <td><?php echo $b['des'] ?></td>   
-        <td align="right"><?php echo number_format($b['debit'],0,'',','); ?></td>   
-        <td align="right"><?php echo number_format($b['credit'],0,'',','); ?></td>
+        <td class="d-none d-lg-table-cell"><?php echo $b['des'] ?></td>   
+        <td align="right"><?php echo number_format($b['credit'] - $b['debit'],0,'',','); ?></td>
         <td align="right"> 
           <a href="#" type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#edit<?php echo $b['id']; ?>"><span data-feather="edit"></span></a>
           <?php
           if ($u['access']=="Programmer" or $u['access']=="Manager"){
           ?>
-          <a onclick="if(confirm('Apakah anda yakin akan menghapus data ini ??')){ location.href='buku_delete.php?id=<?php echo $b['id']; ?>' }" class="btn btn-secondary btn-sm"><span data-feather="trash-2"></span></a>
+          <a onclick="if(confirm('Apakah anda yakin akan menghapus data ini ??')){ location.href='buku_delete?id=<?php echo $b['id']; ?>' }" class="d-none d-d-xl-inline-block btn btn-secondary btn-sm"><span data-feather="trash-2"></span></a>
           <?php
           } 
           ?>
@@ -150,7 +148,7 @@ while($u=mysqli_fetch_array($admin)){
           </div>
 
           <div class="modal-body">
-            <form role="form" action="buku_update.php" method="post">
+            <form role="form" action="buku_update" method="post">
               <div class="mb-2">
                 <label class="form-label">Invoice</label>
                 <input type="hidden" class="form-control form-control-sm" name="id" value="<?php echo $row['id']; ?>">

@@ -24,6 +24,6 @@ $admin=$name['name'];
 mysqli_query($GLOBALS["___mysqli_ston"], "insert into trash_finance values('', '$inv', '$tgl', '$period', '$akun', '$vend','$urai','$ket', '$dbt', '$kdt', '$admin')")or die(mysqli_error($GLOBALS["___mysqli_ston"]));
 }
 mysqli_query($GLOBALS["___mysqli_ston"], "delete from finance where id='$id'")or die(mysqli_error($GLOBALS["___mysqli_ston"]));
-header("Location:buku_add.php?tgl=&vend=&ket=&inv=". $inv);
+header("Location:buku_add?tgl=&vend=&ket=&inv=". $inv);
 
  ?>

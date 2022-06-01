@@ -26,6 +26,6 @@ while($name=mysqli_fetch_array($nm)){
 $admin=$name['name'];
 
 mysqli_query($GLOBALS["___mysqli_ston"], "insert into finance values('', '$inv', '$tgl', '$period', '$akun', '$vend','$urai','$ket', '$dbt', '$kdt', '$admin')")or die(mysqli_error($GLOBALS["___mysqli_ston"]));
-header("Location:buku_add.php?tgl=". $tgl ."&vend=". $vend ."&ket=". $ket ."&inv=". $inv);
+header("Location:buku_add?tgl=". $tgl ."&vend=". $vend ."&ket=". $ket ."&inv=". $inv);
 }
 ?>

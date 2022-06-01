@@ -28,9 +28,9 @@ while($u=mysqli_fetch_array($admin)){
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Username</th>
-            <th scope="col">Name</th>
+            <th scope="col" class="d-none d-md-table-cell">Name</th>
             <th scope="col">Access</th>
-            <th scope="col">Remark</th>
+            <th scope="col" class="d-none d-md-table-cell">Remark</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -44,14 +44,14 @@ while($u=mysqli_fetch_array($admin)){
           ?>
             <td><?php echo $no ?></td>
             <td><?php echo $a['uname'] ?></td>
-            <td><?php echo $a['name'] ?></td>
+            <td class="d-none d-md-table-cell"><?php echo $a['name'] ?></td>
             <td><?php echo $a['access'] ?></td>
-            <td><?php echo $a['remark'] ?></td>
+            <td class="d-none d-md-table-cell"><?php echo $a['remark'] ?></td>
             <td>
               <?php
               if ($u['access']=="Programmer" or $u['access']=="Manager"){
               ?>
-              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan ID : <?php echo $no; ?> ??')){ location.href='user_delete.php?id=<?php echo $a['id']; ?>' }"><button class="btn btn-sm btn-secondary float-md-end" <?php if($a['access']=="Programmer"){echo "disabled";} ?>><span data-feather="trash-2"></span></button></a>
+              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan ID : <?php echo $no; ?> ??')){ location.href='user_delete?id=<?php echo $a['id']; ?>' }"><button class="btn btn-sm btn-secondary float-md-end" <?php if($a['access']=="Programmer"){echo "disabled";} ?>><span data-feather="trash-2"></span></button></a>
               <?php
               }
               ?>
@@ -75,7 +75,7 @@ while($u=mysqli_fetch_array($admin)){
           </div>
 
           <div class="modal-body">
-            <form role="form" action="user_add.php" method="post">
+            <form role="form" action="user_add" method="post">
               <div class="mb-2">
                 <label class="form-label" for="uname">Username</label>
                 <input type="text" class="form-control form-control-sm" name="uname" required>

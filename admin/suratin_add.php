@@ -9,7 +9,7 @@ $ket=$_POST['ket'];
 $file=upload();
 
 mysqli_query($GLOBALS["___mysqli_ston"], "insert into letterin values('', '$from', '$no', '$lamp', '$hal', '$file', '$ket')");
-header("location:suratin.php");
+header("location:suratin");
 
 function upload(){
     $nama = $_FILES['file']['name'];
@@ -20,8 +20,7 @@ function upload(){
     $namaFile .= '.';
     $namaFile .= $ekst;
 
-    move_uploaded_file($tmp, '../surat/' . $namaFile);
+    move_uploaded_file($tmp, '../public/surat/' . $namaFile);
     return $namaFile;
 }
-
 ?>

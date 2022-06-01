@@ -50,7 +50,7 @@ pre {
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="container-fluid">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Data Absensi</h1>
+      <h1 class="h2">Absensi</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
       <a class="btn btn-outline-secondary btn-sm" id="cam-on" onclick=camon()><span data-feather="camera"></span></a>
       <div class="btn-group me-2">
@@ -77,9 +77,9 @@ pre {
       <select class="form-control" id="camera-select"></select>
       <div class="form-group">
         <input id="image-url" type="text" class="form-control" placeholder="Image url">
-        <button title="Decode Image" class="btn btn-default btn-sm" id="decode-img" type="button" data-toggle="tooltip"><span class="glyphicon glyphicon-upload"></span></button>
-        <button title="Image shoot" class="btn btn-info btn-sm" id="grab-img" type="button" data-toggle="tooltip"><span class="glyphicon glyphicon-picture"></span></button>
-        <button title="Pause" class="btn btn-warning btn-sm" id="pause" type="button" data-toggle="tooltip"><span class="glyphicon glyphicon-pause"></span></button>
+        <button title="Decode Image" class="btn btn-default btn-sm" id="decode-img" type="button" data-toggle="tooltip"></button>
+        <button title="Image shoot" class="btn btn-info btn-sm" id="grab-img" type="button" data-toggle="tooltip"></button>
+        <button title="Pause" class="btn btn-warning btn-sm" id="pause" type="button" data-toggle="tooltip"></button>
       </div>
     </div>
     <div class="panel-body text-center">
@@ -132,7 +132,7 @@ pre {
 
   <div class="container-fluid">
     <div class="bd-heading align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
-      <form class="row g-2" action="absensi_act.php" method="post">
+      <form class="row g-2" action="absensi_act" method="post">
         <div class="col-md-3">
           <label for="nisn" class="form-label">NISN</label>
           <textarea type="text" class="form-control" name="nisn" id="scanned-QR" autofocus oninput="this.form.submit()">
@@ -167,9 +167,9 @@ pre {
             <th scope="col">Tanggal</th>
             <th scope="col">Jam</th>
             <th scope="col">nisn</th>
-            <th scope="col">nama</th>
-            <th scope="col">Sesi</th>
-            <th scope="col">Ket</th>
+            <th scope="col" class="d-none d-md-table-cell">nama</th>
+            <th scope="col" class="d-none d-md-table-cell">Sesi</th>
+            <th scope="col" class="d-none d-md-table-cell">Ket</th>
             <th></th>
           </tr>
         </thead>
@@ -183,11 +183,11 @@ pre {
             <td><?= $a['date'] ?></td>
             <td><?= $a['time'] ?></td>
             <td><?= $a['nisn'] ?></td>
-            <td><?= $a['name'] ?></td>
-            <td><?= $a['session'] ?></td>
-            <td><?= $a['note'] ?></td>
+            <td class="d-none d-md-table-cell"><?= $a['name'] ?></td>
+            <td class="d-none d-md-table-cell"><?= $a['session'] ?></td>
+            <td class="d-none d-md-table-cell"><?= $a['note'] ?></td>
             <th>
-            <a onclick="if(confirm('Hapus data : <?= $a['name'] ?> [<?php echo $a['id']; ?>] <?= $a['time'] ?> ??')){ location.href='absensi_del.php?id=<?php echo $a['id']; ?>' }" class="btn btn-sm btn-secondary float-md-end"><span data-feather="trash-2"></span></a>
+            <a onclick="if(confirm('Hapus data : <?= $a['name'] ?> [<?php echo $a['id']; ?>] <?= $a['time'] ?> ??')){ location.href='absensi_del?id=<?php echo $a['id']; ?>' }" class="btn btn-sm btn-secondary float-md-end"><span data-feather="trash-2"></span></a>
             </th>
           </tr>
           <?php

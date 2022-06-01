@@ -26,11 +26,11 @@ while($u=mysqli_fetch_array($admin)){
       <table class="table table-striped table-sm">
         <thead>
           <tr>
-            <th scope="col">No</th>
-            <th scope="col">Kode Akun</th>
-            <th scope="col">Unit</th>
+            <th scope="col" class="d-none d-md-table-cell">No</th>
+            <th scope="col">Kode</th>
+            <th scope="col" class="d-none d-md-table-cell">Unit</th>
             <th scope="col">Nama</th>
-            <th scope="col">Deskripsi</th>
+            <th scope="col" class="d-none d-lg-table-cell">Deskripsi</th>
             <th scope="col"></th>
           </tr>
         </thead>
@@ -41,16 +41,16 @@ while($u=mysqli_fetch_array($admin)){
           $akun=mysqli_query($GLOBALS["___mysqli_ston"], "select * from account order by code");
           while($a=mysqli_fetch_array($akun)){
           ?>
-            <td><?php echo $no ?></td>
+            <td class="d-none d-md-table-cell"><?php echo $no ?></td>
             <td><?php echo $a['code'] ?></td>
-            <td><?php echo $a['unit'] ?></td>
+            <td class="d-none d-md-table-cell"><?php echo $a['unit'] ?></td>
             <td><?php echo $a['name'] ?></td>
-            <td><?php echo $a['des'] ?></td>
+            <td class="d-none d-lg-table-cell"><?php echo $a['des'] ?></td>
             <td>
             <?php
             if ($u['access']=="Programmer" or $u['access']=="Manager"){
             ?>
-              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan Kode : <?php echo $a['code']; ?> ??')){ location.href='akun_delete.php?kode=<?php echo $a['code']; ?>' }" class="btn btn-sm btn-secondary float-md-end"><span data-feather="trash-2"></span></a>
+              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan Kode : <?php echo $a['code']; ?> ??')){ location.href='akun_delete?kode=<?php echo $a['code']; ?>' }" class="btn btn-sm btn-secondary float-md-end"><span data-feather="trash-2"></span></a>
             <?php
             } 
             ?>
@@ -74,7 +74,7 @@ while($u=mysqli_fetch_array($admin)){
           </div>
 
           <div class="modal-body">
-            <form role="form" action="akun_add.php" method="post">
+            <form role="form" action="akun_add" method="post">
               <?php
               $query = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT max(code) as besar FROM account");
               $data = mysqli_fetch_array($query);

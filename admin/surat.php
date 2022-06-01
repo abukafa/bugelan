@@ -16,7 +16,7 @@ while($u=mysqli_fetch_array($admin)){
           </button>
         </div>
         <div class="btn-group me-2">
-          <a  href="suratin.php"><button type="button" class="btn btn-sm btn-outline-secondary"><span data-feather="send"></span>
+          <a  href="suratin"><button type="button" class="btn btn-sm btn-outline-secondary"><span data-feather="send"></span>
             Surat Masuk
           </button></a>
         </div>
@@ -28,10 +28,10 @@ while($u=mysqli_fetch_array($admin)){
         <thead>
           <tr>
             <th>No</th>
-            <th>Lamp</th>
-            <th>Perihal</th>
-            <th>Tujuan</th>
-            <th>Keterangan</th>
+            <th class="d-none d-md-table-cell">Lamp</th>
+            <th class="d-none d-md-table-cell">Perihal</th>
+            <th class="d-none d-lg-table-cell">Tujuan</th>
+            <th class="d-none d-lg-table-cell">Keterangan</th>
             <th></th>
           </tr>
         </thead>
@@ -43,18 +43,18 @@ while($u=mysqli_fetch_array($admin)){
           while($a=mysqli_fetch_array($surat)){
           ?>
             <td><?php echo $a['no'] ?></td>
-            <td><?php echo $a['lamp'] ?></td>
-            <td><?php echo $a['hal'] ?></td>
-            <td><?php echo $a['kpd'] ?></td>
-            <td><?php echo $a['ket'] ?></td>
+            <td class="d-none d-md-table-cell"><?php echo $a['lamp'] ?></td>
+            <td class="d-none d-md-table-cell"><?php echo $a['hal'] ?></td>
+            <td class="d-none d-lg-table-cell"><?php echo $a['kpd'] ?></td>
+            <td class="d-none d-lg-table-cell"><?php echo $a['ket'] ?></td>
             <td align="right">
               <!-- float-md-end -->
               <a type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#edit<?php echo $a['id']; ?>"><span data-feather="edit"></span></a>
-              <a href="surat_lprt.php?id=<?php echo $a['id'] ?>" target="_blank" class="btn btn-sm btn-secondary"><span data-feather="printer"></span></a>
+              <a href="surat_lprt?id=<?php echo $a['id'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-secondary"><span data-feather="printer"></span></a>
               <?php
               if ($u['access']=="Programmer" or $u['access']=="Manager"){
               ?>
-              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan Kode : <?php echo $a['id']; ?> ??')){ location.href='surat_del.php?id=<?php echo $a['id']; ?>' }" class="btn btn-sm btn-secondary"><span data-feather="trash-2"></span></a>
+              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan Kode : <?php echo $a['id']; ?> ??')){ location.href='surat_del?id=<?php echo $a['id']; ?>' }" class="d-none d-xl-inline-block btn btn-sm btn-secondary"><span data-feather="trash-2"></span></a>
               <?php
               } 
               ?>
@@ -71,7 +71,7 @@ while($u=mysqli_fetch_array($admin)){
                 </div>
 
                 <div class="modal-body">
-                  <form role="form" action="surat_edt.php" method="post">
+                  <form role="form" action="surat_edt" method="post">
                     <?php
 
                     ?>
@@ -268,7 +268,7 @@ while($u=mysqli_fetch_array($admin)){
           </div>
 
           <div class="modal-body">
-            <form role="form" action="surat_add.php" method="post">
+            <form role="form" action="surat_add" method="post">
               <?php
 
               ?>

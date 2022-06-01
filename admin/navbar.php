@@ -5,7 +5,7 @@
     session_start();
     include 'config.php';
       if(!isset($_SESSION['uname'])){
-        header("location:../index.php");
+        header("location:../");
         exit;
       }
     $use=$_SESSION['uname'];
@@ -17,13 +17,11 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Hugo 0.84.0">
-    <title>SIMSE - BUGELAN</title>
+    <title>BUGELAN | Admin</title>
     <link href="../logo/logo.png" rel="shortcut icon" type="image/x-icon">
-
-    <!--<link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/dashboard/">-->
-
-    <!-- Bootstrap core CSS -->
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../assets/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <link href="../assets/css/navbar.css" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -41,8 +39,6 @@
       }
     </style>
     
-    <!-- Custom styles for this template -->
-    <link href="../assets/css/navbar.css" rel="stylesheet">
   </head>
   <body class="bg-light">
     <header class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
@@ -58,50 +54,56 @@
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
           <div class="position-sticky pt-3">
             <ul class="nav flex-column">
+            <?php 
+            // menghilangkan slash (/) di ahir
+            $url = rtrim($_SERVER['REQUEST_URI'], '/');
+            // memecah URL menjadi array
+            $url = explode('/', $url);
+            ?> 
               <li class="nav-item">
-                <a class="nav-link <?php if($_SERVER['REQUEST_URI'] === '/smp/admin/dashboard.php'){ echo 'active'; } ?>" aria-current="page" href="dashboard.php">
+                <a class="nav-link <?php if(substr($url[3],0,4) === 'dash'){ echo 'active'; } ?>" aria-current="page" href="dashboard">
                   <span data-feather="home"></span>
                   Dashboard
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <?php if($_SERVER['REQUEST_URI'] === '/smp/admin/guru.php'){ echo 'active'; } ?>" href="guru.php">
+                <a class="nav-link <?php if(substr($url[3],0,4) === 'guru'){ echo 'active'; } ?>" href="guru">
                   <span data-feather="file"></span>
                   Data Guru
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <?php if($_SERVER['REQUEST_URI'] === '/smp/admin/siswa.php'){ echo 'active'; } ?>" href="siswa.php">
+                <a class="nav-link <?php if(substr($url[3],0,4) === 'sisw'){ echo 'active'; } ?>" href="siswa">
                   <span data-feather="file"></span>
                   Data Siswa
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <?php if($_SERVER['REQUEST_URI'] === '/smp/admin/absen.php'){ echo 'active'; } ?>" href="absensi.php">
+                <a class="nav-link <?php if(substr($url[3],0,4) === 'abse'){ echo 'active'; } ?>" href="absensi">
                   <span data-feather="bell"></span>
                   Absensi
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <?php if($_SERVER['REQUEST_URI'] === '/smp/admin/surat.php' || $_SERVER['REQUEST_URI'] === '/smp/admin/suratin.php' ){ echo 'active'; } ?>" href="surat.php">
+                <a class="nav-link <?php if(substr($url[3],0,4) === 'sura' || substr($url[3],0,4) === 'suratin' ){ echo 'active'; } ?>" href="surat">
                   <span data-feather="mail"></span>
                   Surat menyurat
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <?php if($_SERVER['REQUEST_URI'] === '/smp/admin/buku.php'){ echo 'active'; } ?>" href="buku.php">
+                <a class="nav-link <?php if(substr($url[3],0,4) === 'buku'){ echo 'active'; } ?>" href="buku">
                   <span data-feather="shopping-cart"></span>
                   Pembukuan
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <?php if($_SERVER['REQUEST_URI'] === '/smp/admin/akun.php'){ echo 'active'; } ?>" href="akun.php">
+                <a class="nav-link <?php if(substr($url[3],0,4) === 'akun'){ echo 'active'; } ?>" href="akun">
                   <span data-feather="bar-chart-2"></span>
                   Akuntansi
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <?php if($_SERVER['REQUEST_URI'] === '/smp/admin/user.php'){ echo 'active'; } ?>" href="user.php">
+                <a class="nav-link <?php if(substr($url[3],0,4) === 'user'){ echo 'active'; } ?>" href="user">
                   <span data-feather="users"></span>
                   Pengguna
                 </a>
@@ -115,13 +117,13 @@
               </h5> 
               <li class="border-top my-3"></li>
               <li class="nav-item">
-                <a class="nav-link <?php if($_SERVER['REQUEST_URI'] === '/smp/admin/pass.php'){ echo 'active'; } ?>" href="pass.php">
+                <a class="nav-link <?php if(substr($url[3],0,4) === 'pass'){ echo 'active'; } ?>" href="pass">
                   <span data-feather="lock"></span>
                   Ganti Password
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <?php if($_SERVER['REQUEST_URI'] === '/smp/admin/logout.php'){ echo 'active'; } ?>" href="logout.php">
+                <a class="nav-link <?php if(substr($url[3],0,4) === 'logo'){ echo 'active'; } ?>" href="logout">
                   <span data-feather="arrow-left-circle"></span>
                   Logout
                 </a>

@@ -29,7 +29,7 @@ include 'navbar.php';
     <br/>
 
     <div class="container-fluid">
-      <form action="pass_act.php" method="post">
+      <form action="pass_act" method="post">
         <div class="col-md-4 col-md-offset-4">
           <div class="mb-2">
             <label class="form-label">Username</label>

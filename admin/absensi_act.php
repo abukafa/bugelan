@@ -18,9 +18,9 @@ if (isset($_POST['nisn'])) {
 
     if(mysqli_num_rows($siswa) > 0){
         mysqli_query($GLOBALS["___mysqli_ston"], "INSERT into absen VALUES('', '$tgl', '$jam', '$sesi', '$nisn', '$nama', '$ket')");
-        header('location:absensi.php');
+        header('location:absensi');
     }else{
-        header('location:absensi.php?pesan=gagal')or die(mysqli_error($GLOBALS["___mysqli_ston"]));
+        header('location:absensi?pesan=gagal')or die(mysqli_error($GLOBALS["___mysqli_ston"]));
     }
 
 }

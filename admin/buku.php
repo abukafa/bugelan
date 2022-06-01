@@ -30,7 +30,7 @@ $y = date('Y-m-d', strtotime('-1 year'));
       <h1 class="h2">Pembukuan</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
         <div class="btn-group me-2">
-          <a href="buku_add.php?tgl=&vend=&ket=&inv=<?php echo $finalcode ?>"><button type="button" class="btn btn-sm btn-outline-secondary"><span data-feather="plus-circle"></span>
+          <a href="buku_add?tgl=&vend=&ket=&inv=<?php echo $finalcode ?>"><button type="button" class="btn btn-sm btn-outline-secondary"><span data-feather="plus-circle"></span>
           Transaksi Baru
         </button></a>
         </div>
@@ -63,7 +63,7 @@ $y = date('Y-m-d', strtotime('-1 year'));
       $fin=mysqli_query($GLOBALS["___mysqli_ston"], "select distinct inv, period, remark from finance where date between '$awl' and '$n' order by date desc");
       $jumlah_record=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT distinct inv from finance where date between '$awl' and '$n'");
       $jum=mysqli_num_rows($jumlah_record);
-      echo "<div class='btn-group float-end'><button type='button' class='btn btn-sm btn-outline-primary'><a href='buku_lpalok.php?tgl_awal=". $awl ."&tgl_ahir=". $n ."' target='_blank' style='text-decoration:none'>Alokasi</a></button><button type='button' class='btn btn-sm btn-outline-primary'><a href='buku_lpindex.php' target='_blank' style='text-decoration:none'>Index</a></button><button class='btn btn-sm btn-primary'><span data-feather='printer'></span></button></div>";
+      echo "<div class='btn-group float-end'><button type='button' class='btn btn-sm btn-outline-primary'><a href='buku_lpalok?tgl_awal=". $awl ."&tgl_ahir=". $n ."' target='_blank' style='text-decoration:none'>Alokasi</a></button><button type='button' class='btn btn-sm btn-outline-primary'><a href='buku_lpindex' target='_blank' style='text-decoration:none'>Index</a></button><button class='btn btn-sm btn-primary'><span data-feather='printer'></span></button></div>";
       echo "<h6 class='fw-bold'><a style='color:blue'>". $jum ." invoice - Tanggal " . date_format(date_create($awl), 'd M Y') . " s.d. " . date_format(date_create($n), 'd M Y') ."</a></h6>";
           
     }else{
@@ -80,8 +80,8 @@ $y = date('Y-m-d', strtotime('-1 year'));
           <tr>
             <th scope="col">No</th>
             <th scope="col">Invoice</th>
-            <th scope="col">Periode</th>
-            <th scope="col">Keterangan</th>
+            <th scope="col" class="d-none d-md-table-cell">Periode</th>
+            <th scope="col" class="d-none d-lg-table-cell">Keterangan</th>
             <th scope="col">Item</th>
             <th scope="col">Sub Total</th>
             <th scope="col"></th>
@@ -95,8 +95,8 @@ $y = date('Y-m-d', strtotime('-1 year'));
             ?>
             <td><?php echo $no; ?></td>
             <td><?php echo $f['inv']; ?></td>
-            <td><?php echo $f['period']; ?></td>
-            <td><?php echo $f['remark']; ?></td>
+            <td class="d-none d-md-table-cell"><?php echo $f['period']; ?></td>
+            <td class="d-none d-lg-table-cell"><?php echo $f['remark']; ?></td>
             <?php
             $invo=$f['inv'];
             $dat=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * from finance where inv='$invo'");
@@ -111,8 +111,8 @@ $y = date('Y-m-d', strtotime('-1 year'));
               }
               ?>
             <td align="right">    
-              <a href="buku_add.php?tgl=&vend=&ket=<?php echo $f['remark'] ?>&inv=<?php echo $f['inv'] ?>" class="btn btn-sm btn-secondary"><span data-feather="edit"></span></a>
-              <a href="buku_lpstruk.php?inv=<?php echo $f['inv'] ?>" target="_blank" class="btn btn-sm btn-secondary"><span data-feather="printer"></span></a>
+              <a href="buku_add?tgl=&vend=&ket=<?php echo $f['remark'] ?>&inv=<?php echo $f['inv'] ?>" class="btn btn-sm btn-secondary"><span data-feather="edit"></span></a>
+              <a href="buku_lpstruk?inv=<?php echo $f['inv'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-secondary"><span data-feather="printer"></span></a>
             </td>
           </tr>
             <?php

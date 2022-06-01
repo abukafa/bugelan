@@ -12,11 +12,11 @@ if($_FILES['efile']['error'] === 4){
     $file=$old;
 }else{
     $file=upload();
+    unlink('../public/surat/' . $old);
 }
 
-
 mysqli_query($GLOBALS["___mysqli_ston"], "update letterin set sip='$from', no='$no', lamp='$lamp', hal='$hal', file='$file' , ket='$ket' where id='$id'");
-header("location:suratin.php");
+header("location:suratin");
 
 function upload(){
     $nama = $_FILES['efile']['name'];
@@ -27,7 +27,7 @@ function upload(){
     $namaFile .= '.';
     $namaFile .= $ekst;
 
-    move_uploaded_file($tmp, '../surat/' . $namaFile);
+    move_uploaded_file($tmp, '../public/surat/' . $namaFile);
     return $namaFile;
 }
 ?>

@@ -2,7 +2,7 @@
 session_start();
 include 'config.php';
   if(!isset($_SESSION['uname'])){
-    header("location:../index.php");
+    header("location:../index");
     exit;
   }
   
@@ -67,7 +67,7 @@ $pdf->Cell(27.5, 5,'', 0, 0, 'C');
 $pdf->Cell(27.5, 5,'Penerima', 0, 1, 'R');
 $pdf->ln(5);
 $pdf->Cell(27.5, 5,'', 0, 0, 'C');
-$pdf->Cell(27.5, 5, $lihat['admin'] , "B", 0, 'R');
+$pdf->Cell(27.5, 5, '' , "B", 0, 'R');
 
 $pdf->Output("struk.pdf","I");
 function Terbilang($x)
