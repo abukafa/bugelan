@@ -1,9 +1,5 @@
 <?php 
 include 'navbar.php';
-
-$uname = $_SESSION['uname'];
-$admin = mysqli_query($GLOBALS["___mysqli_ston"], "select * from admin where uname='$uname'");
-while($u=mysqli_fetch_array($admin)){
 ?>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="container-fluid">
@@ -21,7 +17,8 @@ while($u=mysqli_fetch_array($admin)){
       } 
       ?>
     </div>
-    
+    <?php flash(); ?>
+
     <div class="table-responsive">
       <table class="table table-striped table-sm">
         <thead>
@@ -51,7 +48,23 @@ while($u=mysqli_fetch_array($admin)){
               <?php
               if ($u['access']=="Programmer" or $u['access']=="Manager"){
               ?>
-              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan ID : <?php echo $no; ?> ??')){ location.href='user_delete?id=<?php echo $a['id']; ?>' }"><button class="btn btn-sm btn-secondary float-md-end" <?php if($a['access']=="Programmer"){echo "disabled";} ?>><span data-feather="trash-2"></span></button></a>
+              <button class="btn btn-sm btn-danger float-md-end delete-<?php echo $a['id']; ?>" <?php if($a['access']=="Programmer"){echo "disabled";} ?>><span data-feather="trash-2"></span></button></button>
+              <script>
+                document.querySelector('.delete-<?php echo $a['id']; ?>').onclick = function(){
+                swal({
+                  title: "Yakin?",
+                  text: "Data tidak bisa dikembalikan!",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: "btn-danger",
+                  confirmButtonText: "Delete",
+                  closeOnConfirm: false
+                },
+                function(){
+                  location.href="user_act?hapus=<?php echo $a['id']; ?>";
+                });
+                };
+              </script>
               <?php
               }
               ?>
@@ -75,7 +88,7 @@ while($u=mysqli_fetch_array($admin)){
           </div>
 
           <div class="modal-body">
-            <form role="form" action="user_add" method="post">
+            <form role="form" action="user_act?tambah" method="post">
               <div class="mb-2">
                 <label class="form-label" for="uname">Username</label>
                 <input type="text" class="form-control form-control-sm" name="uname" required>
@@ -89,7 +102,7 @@ while($u=mysqli_fetch_array($admin)){
                 <input type="password" class="form-control form-control-sm" name="pass" id="pass" placeholder="Ketik Password .." required>
               </div>
               <div class="mb-2">
-                <input type="password" class="form-control form-control-sm" name="repass" id="repass" placeholder="Ulangi password .." onchange="changeFunction()">
+                <input type="password" class="form-control form-control-sm" name="repass" id="repass" placeholder="Ulangi password .." onkeyup="changeFunction()">
                 <div class="invalid-feedback">Password tidak sama ..</div>
                 <div class="valid-feedback">Password Sesuai ..</div>
               </div>
@@ -129,10 +142,7 @@ while($u=mysqli_fetch_array($admin)){
     </div>    
   </div>
 </main>
-<?php 
-}
-?>
 
 <script type="text/javascript">
-    feather.replace({ 'aria-hidden': 'true' })
+  feather.replace({ 'aria-hidden': 'true' })
 </script>

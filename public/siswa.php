@@ -2,11 +2,16 @@
 error_reporting(0);
 include_once 'header.php';
 include_once '../admin/config.php';
+if(date('m')<7){
+  $thn=date('Y')-1;
+}else{
+  $thn=date('Y');
+}
 ?>
 <main class="content">
 	<div class="container mt-5">
 	<p class="display-6 text-center mb-2">Data Siswa</p>
-	<p class="h5 text-center mb-3"><?php echo date('D, d M Y') ?></p>
+	<p class="h5 text-center mb-3"><?php echo date('D, d M Y') . $thn ?></p>
 	<div class="d-flex mb-3">
 		<div class="col-6 col-md-4 col-lg-3">
 			<!-- Filter Data Santri -->
@@ -15,14 +20,9 @@ include_once '../admin/config.php';
 					<label class="input-group-text" for="thn"><span data-feather="search"></span></label>
 					<select type="submit" id="thn" name="thn" class="form-select" onchange="this.form.submit()">
 						<option>.. Pilih ..</option>
-						<?php 
-						$pil=mysqli_query($GLOBALS["___mysqli_ston"], "select distinct tahun from siswa order by tahun");
-						while($p=mysqli_fetch_array($pil)){
-							?>
-							<option><?php echo $p['tahun'] ?></option>
-							<?php
-						}
-						?>			
+						<option value="<?= $thn-2 ?>">Kelas 9</option>
+						<option value="<?= $thn-1 ?>">Kelas 8</option>
+						<option value="<?= $thn ?>">Kelas 7</option>
 					</select>
 				</div>
 			</form>
@@ -42,8 +42,8 @@ include_once '../admin/config.php';
 					</tr>
 					<?php 
 					if(isset($_GET['thn'])){
-						$thn=mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_GET['thn']);
-						$brg=mysqli_query($GLOBALS["___mysqli_ston"], "select * from siswa where tahun = '$thn' order by nama");
+						$tahun=mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_GET['thn']);
+						$brg=mysqli_query($GLOBALS["___mysqli_ston"], "select * from siswa where tahun = '$tahun' order by nama");
 					}else{
 						$jumlah_record=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * from siswa");
 						$per_hal=20;
@@ -59,8 +59,8 @@ include_once '../admin/config.php';
 					<tr>
 						<td class="d-none d-md-table-cell"><?php echo $b['nisn'] ?></td>
 						<td><?php echo $b['nama'] ?></td>
-						<td><?php echo date('Y') - $b['tahun'] ?></td>
-						<td class="d-none d-md-table-cell"><?php echo $b['tempat_lahir'] .', '. $b['tanggal_lahir'] ?></td>
+						<td><?php echo $thn - $b['tahun'] + 7 ?></td>
+						<td class="d-none d-md-table-cell"><?php echo $b['tempat_lahir'] .', '. date_format(date_create($b['tanggal_lahir']),'d M Y') ?></td>
 						<td class="d-none d-lg-table-cell"><?php echo $b['nama_ayah'] ?></td>
 						<td class="d-none d-lg-table-cell"><?php echo $b['nama_ibu'] ?></td>
 					</tr>		
@@ -89,3 +89,6 @@ include_once '../admin/config.php';
 		</div>
 	</div>
 </main>
+<script>
+    feather.replace({ 'aria-hidden': 'true' })
+</script>

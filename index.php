@@ -58,31 +58,26 @@
           <li>
             <a href="/bugelan" class="nav-link text-secondary">
               <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#home"/></svg>
-              Home
             </a>
           </li>
           <li>
             <a href="public/dashboard" class="nav-link text-white">
               <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#speedometer2"/></svg>
-              Board
             </a>
           </li>
           <li>
             <a href="public/siswa" class="nav-link text-white">
               <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#table"/></svg>
-              Siswa
             </a>
           </li>
           <li>
             <a href="public/nilai" class="nav-link text-white">
               <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#grid"/></svg>
-              Nilai
             </a>
           </li>
           <li>
             <a href="public/login" class="nav-link text-white">
               <svg class="bi d-block mx-auto mb-1" width="24" height="24"><use xlink:href="#people-circle"/></svg>
-              Admin
             </a>
           </li>
         </ul>
@@ -91,12 +86,6 @@
   </div>
 </header>
 
-<div class="container text-center mt-5">
-	<p class="display-6 mb-2">Sistem Informasi Sekolah</p>
-	<p class="h4 mb-3">SMP Terpadu Bugelan</p>
-  <div class="mt-5">
-      <img src="assets/logo/logo2.png" width="160" height="160">
-  </div>
-  <p class="mt-5 mb-0 text-muted">&copy; Yayasan Bugelan</p>
-  <p class="mb-3 text-muted">Supported by : Semangka Media</p>
-</div>
+<?php 
+require_once 'public/home.php';
+?>

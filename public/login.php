@@ -1,4 +1,10 @@
 <?php 
+// error_reporting(0);
+session_start();
+if(isset($_SESSION['uname'])){
+  header("location:../admin/dashboard");
+  exit;
+}
 include 'header.php';
 ?>
 <style>
@@ -25,7 +31,6 @@ include 'header.php';
       if(isset($_GET['pesan'])){
         if($_GET['pesan'] == "gagal"){
           echo "<div style='margin-bottom:-55px' class='alert alert-danger' role='alert'><span class='glyphicon glyphicon-warning-sign'></span>  Maaf, anda tidak diizinkan..</div>";
-          // echo '<div class="position-absolute text-white" style="background-color:rgba(0,0,0,0.7);height: 200px;width: 270px;">testing</div>';
         }
       }
       ?>
@@ -45,4 +50,7 @@ include 'header.php';
   </main>
 </body>
 </html>
+<script>
+    feather.replace({ 'aria-hidden': 'true' })
+</script>
 

@@ -22,6 +22,7 @@ while($u=mysqli_fetch_array($admin)){
         </div>
       </div>
     </div>
+    <?php flash() ?>
     
     <div class="table-responsive">
       <table class="table table-striped table-sm">
@@ -48,13 +49,28 @@ while($u=mysqli_fetch_array($admin)){
             <td class="d-none d-lg-table-cell"><?php echo $a['kpd'] ?></td>
             <td class="d-none d-lg-table-cell"><?php echo $a['ket'] ?></td>
             <td align="right">
-              <!-- float-md-end -->
               <a type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#edit<?php echo $a['id']; ?>"><span data-feather="edit"></span></a>
-              <a href="surat_lprt?id=<?php echo $a['id'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-secondary"><span data-feather="printer"></span></a>
+              <a href="surat_lprt?id=<?php echo $a['id'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-primary"><span data-feather="printer"></span></a>
               <?php
               if ($u['access']=="Programmer" or $u['access']=="Manager"){
               ?>
-              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan Kode : <?php echo $a['id']; ?> ??')){ location.href='surat_del?id=<?php echo $a['id']; ?>' }" class="d-none d-xl-inline-block btn btn-sm btn-secondary"><span data-feather="trash-2"></span></a>
+              <button class="btn btn-sm btn-danger delete-<?php echo $a['id']; ?>"><span data-feather="trash-2"></span></button></button>
+              <script>
+                document.querySelector('.delete-<?php echo $a['id']; ?>').onclick = function(){
+                swal({
+                  title: "Yakin?",
+                  text: "Data tidak bisa dikembalikan!",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: "btn-danger",
+                  confirmButtonText: "Delete",
+                  closeOnConfirm: false
+                },
+                function(){
+                  location.href="surat_act?hapus=<?php echo $a['id']; ?>";
+                });
+                };
+              </script>
               <?php
               } 
               ?>
@@ -71,7 +87,7 @@ while($u=mysqli_fetch_array($admin)){
                 </div>
 
                 <div class="modal-body">
-                  <form role="form" action="surat_edt" method="post">
+                  <form role="form" action="surat_act?ubah" method="post">
                     <?php
 
                     ?>
@@ -268,7 +284,7 @@ while($u=mysqli_fetch_array($admin)){
           </div>
 
           <div class="modal-body">
-            <form role="form" action="surat_add" method="post">
+            <form role="form" action="surat_act?tambah" method="post">
               <?php
 
               ?>

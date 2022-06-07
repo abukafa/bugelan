@@ -27,10 +27,11 @@ if(date('m')<7){
       </div>
     </div>
   </div>
+  <?php flash(); ?>
 
   <div class="container-fluid">
     <div class="table-responsive">
-      <table class="table table-striped table-sm">
+      <table class="table table-striped table-hover table-sm">
         <thead>
           <tr>
             <th scope="col" class="d-none d-md-table-cell">No</th>
@@ -61,11 +62,34 @@ if(date('m')<7){
             <td><?= $s['nama'] ?></td>
             <td class="d-none d-md-table-cell"><?= $s['jk'] ?></td>
             <td class="d-none d-md-table-cell"><?= $thn-$s['tahun']+7 ?></td>
-            <td class="d-none d-lg-table-cell"><?= $s['tempat_lahir'] . ', ' . date_format(date_create($s['tanggal_lahir']), "d M Y") ?></td>
+            <td class="d-none d-lg-table-cell"><?= $s['tempat_lahir'] . ', ' . date_format(date_create($s['tanggal_lahir']), "j M Y") ?></td>
             <td class="d-none d-lg-table-cell"><?= $s['nama_ayah'] ?></td>
             <td align="right">    
               <a href="siswa_edt?id=<?php echo $s['id'] ?>" class="btn btn-sm btn-secondary"><span data-feather="edit"></span></a>
-              <a href="siswa_lprt?id=<?php echo $s['id'] ?>" target="_blank" class="d-none d-lx-inline-block btn btn-sm btn-secondary"><span data-feather="printer"></span></a>
+              <a href="siswa_lprt?id=<?php echo $s['id'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-primary"><span data-feather="printer"></span></a>
+              <?php
+              if ($u['access']=="Programmer" or $u['access']=="Manager"){
+              ?>
+              <button class="btn btn-sm btn-danger delete-<?php echo $s['id']; ?>"><span data-feather="trash-2"></span></button></button>
+              <script>
+                document.querySelector('.delete-<?php echo $s['id']; ?>').onclick = function(){
+                swal({
+                  title: "Yakin?",
+                  text: "Data tidak bisa dikembalikan!",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: "btn-danger",
+                  confirmButtonText: "Delete",
+                  closeOnConfirm: false
+                },
+                function(){
+                  location.href="siswa_act?hapus=<?php echo $s['id']; ?>";
+                });
+                };
+              </script>
+              <?php
+              }
+              ?>
             </td>
           </tr>
           <?php

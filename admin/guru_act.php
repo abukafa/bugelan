@@ -1,7 +1,7 @@
 <?php 
 require 'config.php';
 
-// FUNGSI TAMBAH SISWA ------------------------------------------------------------------------------
+// FUNGSI TAMBAH GURU ------------------------------------------------------------------------------
 if(isset($_GET['tambah'])){
     $nig = $_POST['nig'];
     $nama = $_POST['nama'];
@@ -18,7 +18,7 @@ if(isset($_GET['tambah'])){
     $kecamatan = $_POST['kecamatan'];
     $kode_pos = $_POST['kode_pos'];
     $ket = $_POST['ket'];
-    mysqli_query($GLOBALS["___mysqli_ston"], "INSERT INTO guru VALUES(
+    mysqli_query($conn, "INSERT INTO guru VALUES(
         '', 
         '$nig',
         '$nama',
@@ -36,10 +36,16 @@ if(isset($_GET['tambah'])){
         '$kode_pos',
         '$ket')
     ");
+
+    if(mysqli_affected_rows($conn) > 0){
+        flasher('Menambah!', $nama, 'success');
+    }else{
+        flasher('Gagal!', 'Data tidak disimpan', 'error');
+    }
     header("Location: guru");
 }
 
-// FUNGSI UBAH SISWA ------------------------------------------------------------------------------
+// FUNGSI UBAH GURU ------------------------------------------------------------------------------
 if(isset($_GET['ubah'])){
     $id = $_GET['ubah'];
     $nig = $_POST['nig'];
@@ -57,7 +63,7 @@ if(isset($_GET['ubah'])){
     $kecamatan = $_POST['kecamatan'];
     $kode_pos = $_POST['kode_pos'];
     $ket = $_POST['ket'];
-    mysqli_query($GLOBALS["___mysqli_ston"], "UPDATE guru SET
+    mysqli_query($conn, "UPDATE guru SET
         nig = '$nig',
         nama = '$nama',
         tempat_lahir = '$tempat_lahir',
@@ -74,7 +80,23 @@ if(isset($_GET['ubah'])){
         kode_pos = '$kode_pos',
         ket = '$ket'
     WHERE id='$id'");
+
+    if(mysqli_affected_rows($conn) > 0){
+        flasher('Mengubah!', $nama, 'success');
+    }else{
+        flasher('Gagal!', 'Tidak ada perubahan', 'error');
+    }
     header("Location: guru");
 }
 
-
+// FUNGSI HAPUS GURU ------------------------------------------------------------------------------
+if(isset($_GET['hapus'])){
+    $id=$_GET['hapus'];
+    mysqli_query($conn, "delete from guru where id='$id'")or die(mysqli_error($conn));
+    if(mysqli_affected_rows($conn) > 0){
+        flasher('Menghapus!', 'Data Guru', 'success');
+    }else{
+        flasher('Gagal!', 'Data tidak dihapus', 'error');
+    }
+    header("Location:guru");
+}

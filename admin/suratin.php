@@ -22,6 +22,7 @@ while($u=mysqli_fetch_array($admin)){
         </div>
       </div>
     </div>
+    <?php flash() ?>
     
     <div class="table-responsive">
       <table class="table table-striped table-sm">
@@ -51,12 +52,29 @@ while($u=mysqli_fetch_array($admin)){
             <td class="d-none d-xl-table-cell"><?php echo $a['file'] ?></td>
             <td align="right">
               <!-- float-md-end -->
-              <a href="../public/surat/<?php echo $a['file'] ?>" type="button" class="btn btn-secondary btn-sm" target="_blank"><span data-feather="eye"></span></a>
               <a type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#edit<?php echo $a['id']; ?>"><span data-feather="edit"></span></a>
+              <a href="../public/surat/<?php echo $a['file'] ?>" type="button" class="btn btn-primary btn-sm" target="_blank"><span data-feather="eye"></span></a>
               <?php
               if ($u['access']=="Programmer" or $u['access']=="Manager"){
               ?>
-              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan Kode : <?php echo $a['id']; ?> ??')){ location.href='suratin_del?id=<?= $a['id']; ?>&file=<?= $a['file']; ?>' }" class="d-none d-xl-inline-block btn btn-sm btn-secondary"><span data-feather="trash-2"></span></a>
+              <!-- <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan Kode : <?php echo $a['id']; ?> ??')){ location.href='suratin_del?id=<?= $a['id']; ?>&file=<?= $a['file']; ?>' }" class="d-none d-xl-inline-block btn btn-sm btn-secondary"><span data-feather="trash-2"></span></a> -->
+              <button class="btn btn-sm btn-danger delete-<?php echo $a['id']; ?>"><span data-feather="trash-2"></span></button></button>
+              <script>
+                document.querySelector('.delete-<?php echo $a['id']; ?>').onclick = function(){
+                swal({
+                  title: "Yakin?",
+                  text: "Data tidak bisa dikembalikan!",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: "btn-danger",
+                  confirmButtonText: "Delete",
+                  closeOnConfirm: false
+                },
+                function(){
+                  location.href="suratin_act?hapus=<?php echo $a['id']; ?>&file=<?= $a['file']; ?>";
+                });
+                };
+              </script>
               <?php
               } 
               ?>
@@ -73,7 +91,7 @@ while($u=mysqli_fetch_array($admin)){
                 </div>
 
                 <div class="modal-body">
-                  <form role="form" action="suratin_edt" method="post" enctype="multipart/form-data">
+                  <form role="form" action="suratin_act?ubah" method="post" enctype="multipart/form-data">
                     <?php
 
                     ?>
@@ -96,9 +114,9 @@ while($u=mysqli_fetch_array($admin)){
                     </div>
                     <div class="mb-2">
                       <label class="form-label fw-bold" for="efile">Berkas</label>
-                      <br><img src="../public/surat/<?php echo $a['file']; ?>" width="100%"><br>
+                      <br><img src="../public/surat/<?php echo $a['file']; ?>" width="100%" id="img-preview"><br>
                       <input type="hidden" name="eold" id="eold" value="<?php echo $a['file']; ?>">
-                      <input type="file" class="form-control form-control-sm" name="efile" id="efile" accept=".jpg">
+                      <input type="file" class="form-control form-control-sm" name="efile" id="efile" accept=".jpg" onchange="previewImg()">
                     </div>
                     <div class="mb-2">
                       <label class="form-label fw-bold" for="eket">Keterangan</label>
@@ -132,7 +150,7 @@ while($u=mysqli_fetch_array($admin)){
           </div>
 
           <div class="modal-body">
-            <form role="form" action="suratin_add" method="post" enctype="multipart/form-data">
+            <form role="form" action="suratin_act?tambah" method="post" enctype="multipart/form-data">
               <?php
 
               ?>
@@ -154,7 +172,8 @@ while($u=mysqli_fetch_array($admin)){
               </div>
               <div class="mb-2">
                 <label class="form-label fw-bold" for="file">Berkas</label>
-                <input type="file" class="form-control form-control-sm" name="file" id="file" accept=".jpg" multiple required>
+                <br><img width="100%" class="preview"><br>
+                <input type="file" class="form-control form-control-sm" name="file" id="file" accept=".jpg" onchange="preview()" required>
               </div>
               <div class="mb-2">
                 <label class="form-label fw-bold" for="ket">Keterangan</label>
@@ -178,4 +197,30 @@ while($u=mysqli_fetch_array($admin)){
 
 <script type="text/javascript">
     feather.replace({ 'aria-hidden': 'true' })
+    function preview(){
+      const img = document.querySelector('#file');
+      const preview = document.querySelector('.preview');
+
+      preview.style.display = 'block';
+
+      const oFReader = new FileReader();
+      oFReader.readAsDataURL(img.files[0]);
+
+      oFReader.onload = function(oFREvent){
+        preview.src = oFREvent.target.result;
+      }
+    }
+    function previewImg(){
+      const img = document.querySelector('#efile');
+      const preview = document.querySelector('#img-preview');
+
+      preview.style.display = 'block';
+
+      const oFReader = new FileReader();
+      oFReader.readAsDataURL(img.files[0]);
+
+      oFReader.onload = function(oFREvent){
+        preview.src = oFREvent.target.result;
+      }
+    }
 </script>

@@ -1,9 +1,8 @@
 <?php 
 include 'navbar.php';
 
-$uname = $_SESSION['uname'];
-$admin = mysqli_query($GLOBALS["___mysqli_ston"], "select * from admin where uname='$uname'");
-while($u=mysqli_fetch_array($admin)){
+flash();
+
 ?>
 
 <link href="../assets/css/bootstrap-datepicker3.min.css" rel="stylesheet"/>
@@ -24,7 +23,7 @@ while($u=mysqli_fetch_array($admin)){
     </div>
 
     <div class="bd-heading align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
-      <form class="row g-2" action="buku_addact" method="post">
+      <form class="row g-2" action="buku_act?tambah" method="post">
         <div class="col-md-2">
           <label for="inv" class="form-label">Invoice</label>
           <input type="text" class="form-control" name="inv" id="inv" value="<?php echo $_GET['inv']; ?>" readonly="yes">
@@ -123,7 +122,24 @@ while($u=mysqli_fetch_array($admin)){
           <?php
           if ($u['access']=="Programmer" or $u['access']=="Manager"){
           ?>
-          <a onclick="if(confirm('Apakah anda yakin akan menghapus data ini ??')){ location.href='buku_delete?id=<?php echo $b['id']; ?>' }" class="d-none d-d-xl-inline-block btn btn-secondary btn-sm"><span data-feather="trash-2"></span></a>
+          <a onclick="if(confirm('Apakah anda yakin akan menghapus data ini ??')){ location.href='buku_delete?id=<?php echo $b['id']; ?>' }" class="d-none d-xl-inline-block btn btn-secondary btn-sm"><span data-feather="trash-2"></span></a>
+          <button class="btn btn-sm btn-danger delete-<?php echo $b['id']; ?>"><span data-feather="trash-2"></span></button></button>
+              <script>
+                document.querySelector('.delete-<?php echo $b['id']; ?>').onclick = function(){
+                swal({
+                  title: "Yakin?",
+                  text: "Data tidak bisa dikembalikan!",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: "btn-danger",
+                  confirmButtonText: "Delete",
+                  closeOnConfirm: false
+                },
+                function(){
+                  location.href="buku_act?hapus=<?php echo $b['id']; ?>";
+                });
+                };
+              </script>
           <?php
           } 
           ?>
@@ -148,7 +164,7 @@ while($u=mysqli_fetch_array($admin)){
           </div>
 
           <div class="modal-body">
-            <form role="form" action="buku_update" method="post">
+            <form role="form" action="buku_act?ubah" method="post">
               <div class="mb-2">
                 <label class="form-label">Invoice</label>
                 <input type="hidden" class="form-control form-control-sm" name="id" value="<?php echo $row['id']; ?>">
@@ -233,10 +249,6 @@ while($u=mysqli_fetch_array($admin)){
     }
   </script>
 </main>
-
-<?php 
-}
-?>
 
 <script type="text/javascript">
     feather.replace({ 'aria-hidden': 'true' })

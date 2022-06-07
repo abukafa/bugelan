@@ -136,6 +136,11 @@ if(isset($_GET['tambah'])){
         '$jml_saudara',
         '$jarak_rumah')
     ");
+    if(mysqli_affected_rows($conn) > 0){
+        flasher('Menambah!', $nama, 'success');
+    }else{
+        flasher('Gagal!', 'Data tidak disimpan', 'error');
+    }
     header("Location: siswa");
 }
 
@@ -274,7 +279,34 @@ if(isset($_GET['ubah'])){
         jml_saudara = '$jml_saudara',
         jarak_rumah = '$jarak_rumah'
     WHERE id='$id'");
+
+    // UPLOAD FOTO
+    if($_FILES['file']['error'] === 0){
+        $nama = $_FILES['file']['name'];
+        // $ekst = explode('.', $nama);
+        // $ekst = strtolower(end($ekst));
+        $tmp = $_FILES['file']['tmp_name'];
+        $namaFile = $id . '.jpg';
+
+        move_uploaded_file($tmp, '../public/foto/' . $namaFile);
+    }
+
+    if(mysqli_affected_rows($conn) > 0 || $_FILES['file']['error'] === 0){
+        flasher('Mengubah!', $nama, 'success');
+    }else{
+        flasher('Gagal!', 'Tidak ada perubahan', 'error');
+    }
     header("Location: siswa");
 }
 
-
+// FUNGSI HAPUS SISWA ------------------------------------------------------------------------------
+if(isset($_GET['hapus'])){
+    $id=$_GET['hapus'];
+    mysqli_query($conn, "delete from siswa where id='$id'")or die(mysqli_error($conn));
+    if(mysqli_affected_rows($conn) > 0){
+        flasher('Menghapus!', 'Data Siswa', 'success');
+    }else{
+        flasher('Gagal!', 'Data tidak dihapus', 'error');
+    }
+    header("Location:siswa");
+}

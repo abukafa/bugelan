@@ -112,7 +112,7 @@ $y = date('Y-m-d', strtotime('-1 year'));
               ?>
             <td align="right">    
               <a href="buku_add?tgl=&vend=&ket=<?php echo $f['remark'] ?>&inv=<?php echo $f['inv'] ?>" class="btn btn-sm btn-secondary"><span data-feather="edit"></span></a>
-              <a href="buku_lpstruk?inv=<?php echo $f['inv'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-secondary"><span data-feather="printer"></span></a>
+              <a href="buku_lpstruk?inv=<?php echo $f['inv'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-primary"><span data-feather="printer"></span></a>
             </td>
           </tr>
             <?php

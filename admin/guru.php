@@ -19,6 +19,7 @@ if(date('m')<7){
       </div>
     </div>
   </div>
+  <?php flash() ?>
 
   <div class="container-fluid">
     <div class="table-responsive">
@@ -46,11 +47,33 @@ if(date('m')<7){
             <td><?= $g['nama'] ?></td>
             <td><?= $g['jk'] ?></td>
             <td class="d-none d-md-table-cell"><?= $g['tempat_lahir'] . ', ' . $g['tanggal_lahir'] ?></td>
-            <!-- <td><?= $g['tempat_lahir'] . ', ' . date_format(date_create($g['tanggal_lahir']), "d M Y") ?></td> -->
             <td class="d-none d-md-table-cell"><?= $g['ket'] ?></td>
             <td align="right">    
               <a href="guru_edt?id=<?php echo $g['id'] ?>" class="btn btn-sm btn-secondary"><span data-feather="edit"></span></a>
-              <a href="guru_lprt?id=<?php echo $g['id'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-secondary"><span data-feather="printer"></span></a>
+              <a href="guru_lprt?id=<?php echo $g['id'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-primary"><span data-feather="printer"></span></a>
+              <?php
+              if ($u['access']=="Programmer" or $u['access']=="Manager"){
+              ?>
+              <button class="btn btn-sm btn-danger delete-<?php echo $g['id']; ?>"><span data-feather="trash-2"></span></button></button>
+              <script>
+                document.querySelector('.delete-<?php echo $g['id']; ?>').onclick = function(){
+                swal({
+                  title: "Yakin?",
+                  text: "Data tidak bisa dikembalikan!",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: "btn-danger",
+                  confirmButtonText: "Delete",
+                  closeOnConfirm: false
+                },
+                function(){
+                  location.href="guru_act?hapus=<?php echo $g['id']; ?>";
+                });
+                };
+              </script>
+              <?php
+              }
+              ?>
             </td>
           </tr>
           <?php

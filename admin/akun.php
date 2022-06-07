@@ -19,6 +19,7 @@ while($u=mysqli_fetch_array($admin)){
       </div>
       <?php
       } 
+      flash()
       ?>
     </div>
     
@@ -50,7 +51,23 @@ while($u=mysqli_fetch_array($admin)){
             <?php
             if ($u['access']=="Programmer" or $u['access']=="Manager"){
             ?>
-              <a onclick="if(confirm('Apakah anda yakin akan menghapus data dengan Kode : <?php echo $a['code']; ?> ??')){ location.href='akun_delete?kode=<?php echo $a['code']; ?>' }" class="btn btn-sm btn-secondary float-md-end"><span data-feather="trash-2"></span></a>
+              <button class="btn btn-sm btn-danger float-md-end delete-<?php echo $a['code']; ?>"><span data-feather="trash-2"></span></button></button>
+              <script>
+                document.querySelector('.delete-<?php echo $a['code']; ?>').onclick = function(){
+                swal({
+                  title: "Yakin?",
+                  text: "Data tidak bisa dikembalikan!",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: "btn-danger",
+                  confirmButtonText: "Delete",
+                  closeOnConfirm: false
+                },
+                function(){
+                  location.href="akun_act?hapus=<?php echo $a['code']; ?>";
+                });
+                };
+              </script>
             <?php
             } 
             ?>
@@ -74,7 +91,7 @@ while($u=mysqli_fetch_array($admin)){
           </div>
 
           <div class="modal-body">
-            <form role="form" action="akun_add" method="post">
+            <form role="form" action="akun_act?tambah" method="post">
               <?php
               $query = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT max(code) as besar FROM account");
               $data = mysqli_fetch_array($query);

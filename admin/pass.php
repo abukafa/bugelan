@@ -12,23 +12,12 @@ include 'navbar.php';
 
   <body>  
     <div class="container"> 
-      <?php 
-      if(isset($_GET['pesan'])){
-      $pesan=mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_GET['pesan']);
-      if($pesan=="oke"){
-        echo "<center><div class='alert alert-success'>Password telah dirubah  !!     Terima kasih !! </div></center>";
-      }else if($pesan=="tdksama"){
-        echo "<center><div class='alert alert-warning'>Password yang anda masukkan tidak sesuai  !!     silahkan ulangi !! </div></center>";
-      }else if($pesan=="gagal"){
-        echo "<center><div class='alert alert-danger'>Password gagal di ganti !!     Periksa Kembali Password yang anda masukkan !!</div></center>";
-      }
-      }
-      ?>
     </div>
 
     <br/>
 
     <div class="container-fluid">
+      <?php flash() ?>
       <form action="pass_act" method="post">
         <div class="col-md-4 col-md-offset-4">
           <div class="mb-2">
@@ -45,7 +34,7 @@ include 'navbar.php';
           </div>
           <div class="mb-2">
             <label class="form-label">Ulangi Password</label>
-            <input name="ulang" id="ulang" type="password" class="form-control form-control-sm" placeholder="Ulangi Password .." onchange="sameCheck()">
+            <input name="ulang" id="ulang" type="password" class="form-control form-control-sm" placeholder="Ulangi Password .." onkeyup="sameCheck()">
             <div class="invalid-feedback">Password tidak sama ..</div>
             <div class="valid-feedback">Password Sesuai ..</div>
           </div>

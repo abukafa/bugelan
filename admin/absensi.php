@@ -7,12 +7,6 @@ $w = date('Y-m-d', strtotime('-1 week'));
 $m = date('Y-m-d', strtotime('-1 month'));
 $s = date('Y-m-d', strtotime('-6 month'));
 $y = date('Y-m-d', strtotime('-1 year'));
-
-if(isset($_GET['pesan'])){
-  if($_GET['pesan'] == "gagal"){
-    echo "<script>alert('NISN Tidak ditemukan..! Coba lagi..');</script>";
-  }
-}
 ?>
 
 <style>
@@ -71,6 +65,7 @@ pre {
       </div>
     </div>
   </div>
+  <?php flash(); ?>
   
   <div class="container" id="QR-Code" style="display:none">
     <div class="navbar-form navbar-right" style="display: none;">
@@ -132,7 +127,7 @@ pre {
 
   <div class="container-fluid">
     <div class="bd-heading align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
-      <form class="row g-2" action="absensi_act" method="post">
+      <form class="row g-2" action="absensi_act?tambah" method="post">
         <div class="col-md-3">
           <label for="nisn" class="form-label">NISN</label>
           <textarea type="text" class="form-control" name="nisn" id="scanned-QR" autofocus oninput="this.form.submit()">
@@ -186,9 +181,25 @@ pre {
             <td class="d-none d-md-table-cell"><?= $a['name'] ?></td>
             <td class="d-none d-md-table-cell"><?= $a['session'] ?></td>
             <td class="d-none d-md-table-cell"><?= $a['note'] ?></td>
-            <th>
-            <a onclick="if(confirm('Hapus data : <?= $a['name'] ?> [<?php echo $a['id']; ?>] <?= $a['time'] ?> ??')){ location.href='absensi_del?id=<?php echo $a['id']; ?>' }" class="btn btn-sm btn-secondary float-md-end"><span data-feather="trash-2"></span></a>
-            </th>
+            <td>
+            <button class="btn btn-sm btn-danger float-md-end delete-<?php echo $a['id']; ?>"><span data-feather="trash-2"></span></button></button>
+              <script>
+                document.querySelector('.delete-<?php echo $a['id']; ?>').onclick = function(){
+                swal({
+                  title: "Yakin?",
+                  text: "Data tidak bisa dikembalikan!",
+                  type: "warning",
+                  showCancelButton: true,
+                  confirmButtonClass: "btn-danger",
+                  confirmButtonText: "Delete",
+                  closeOnConfirm: false
+                },
+                function(){
+                  location.href="absensi_act?hapus=<?php echo $a['id']; ?>";
+                });
+                };
+              </script>
+            </td>
           </tr>
           <?php
           $no++;
