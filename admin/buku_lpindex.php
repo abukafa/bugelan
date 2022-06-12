@@ -14,7 +14,7 @@ $pdf->SetMargins(1,1,1);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
-$pdf->Image('../logo/kop.png',1,0.6,17,2); 
+$pdf->Image('../assets/logo/kop.png',1,0.6,17,2); 
 $pdf->Line(1,2.7,20,2.7);
 $pdf->SetLineWidth(0.1);      
 $pdf->Line(1,2.8,20,2.8);   
@@ -42,7 +42,7 @@ $pdf->Cell(2.5, 0.7, 'Kredit', 1, 1, 'C');
 $pdf->Cell(27.5, 0.1, '', 0, 1, 'C');
 
 $no=1;
-$aku=mysqli_query($GLOBALS["___mysqli_ston"], "select * from account order by code");
+$aku=mysqli_query($conn, "select * from account order by code");
 	while($b=mysqli_fetch_array($aku)){
 	$a=$b['code'];
 	$pdf->SetFont('Arial','',8);
@@ -51,7 +51,7 @@ $aku=mysqli_query($GLOBALS["___mysqli_ston"], "select * from account order by co
 		$pdf->Cell(5, 0.7, $b['name'], 1, 0, 'L');
 		$pdf->Cell(6.5, 0.7, $b['des'], 1, 0, 'L');
 
-		$tto=mysqli_query($GLOBALS["___mysqli_ston"], "select sum(if(account='$a', debit, 0)) as dbt, sum(if(account='$a', credit, 0)) as kdt from finance");
+		$tto=mysqli_query($conn, "select sum(if(account='$a', debit, 0)) as dbt, sum(if(account='$a', credit, 0)) as kdt from finance");
             while($t=mysqli_fetch_array($tto)){
 			$pdf->Cell(2.5, 0.7, number_format($t['dbt'],0,'.',','), 1, 0, 'R');
 			$pdf->Cell(2.5, 0.7, number_format($t['kdt'],0,'.',','), 1, 1, 'R');
@@ -60,7 +60,7 @@ $aku=mysqli_query($GLOBALS["___mysqli_ston"], "select * from account order by co
 		}
 }
 
-$total=mysqli_query($GLOBALS["___mysqli_ston"], "select sum(debit) as tdbt, sum(credit) as tkdt from finance");
+$total=mysqli_query($conn, "select sum(debit) as tdbt, sum(credit) as tkdt from finance");
 while($ttl=mysqli_fetch_array($total)){
 
 $pdf->Cell(27.5, 0.1, '', 0, 1, 'C');
@@ -79,7 +79,7 @@ $pdf->ln(1.5);
 $pdf->SetFont('Arial','',10);
 $pdf->Cell(6, 0.5, '', 0, 0, 'C');
 $pdf->Cell(7, 0.5, '', 0, 0, 'C');
-$pdf->Cell(6, 0.5,"Ciamis, ".date("d M Y"), 0, 1, 'C');
+$pdf->Cell(6, 0.5,"Tasikmalaya, ".date("d M Y"), 0, 1, 'C');
 $pdf->Cell(6, 0.5,'Kepala', 0, 0, 'C');
 $pdf->Cell(7, 0.5, '', 0, 0, 'C');
 $pdf->Cell(6, 0.5,'Bag. Bendahara', 0, 1, 'C');

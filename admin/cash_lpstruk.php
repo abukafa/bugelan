@@ -15,6 +15,7 @@ $pdf->AliasNbPages();
 $pdf->AddPage();
 
 $pdf->Image('../assets/logo/logo_black.png',20.5,3.5,17,15); 
+
 $pdf->ln(18);
 $pdf->SetFont('Arial','',6.5);
 $pdf->Cell(55, 5,'YAYASAN SOSIAL DAN PENDIDIKAN',"B",1, 'C');
@@ -29,8 +30,8 @@ $pdf->Cell(55, 4, "BUKTI TRANSAKSI" ,0,1, 'C');
 $pdf->SetFont('Arial','',7);
 $pdf->Cell(55, 4, date("d/m/Y g:i a") ,0,1, 'C');
 
-$inv=mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_GET['inv']);
-$det=mysqli_query($GLOBALS["___mysqli_ston"], "select * from finance where inv='$inv'")or die(mysqli_error($GLOBALS["___mysqli_ston"]));
+$inv=mysqli_real_escape_string($conn, $_GET['inv']);
+$det=mysqli_query($conn, "select * from cash where inv='$inv'")or die(mysqli_error($conn));
 while($lihat=mysqli_fetch_array($det)){
 
 $no=1;
@@ -44,7 +45,7 @@ $tot = $lihat['credit'] - $lihat['debit'];
 $pdf->Cell(27.5, 4, number_format($tot,0,'',','),0,1,'R');
 $no++;
 }
-$de=mysqli_query($GLOBALS["___mysqli_ston"], "select sum(credit) as kdt, sum(debit) as dbt from finance where inv='$inv'")or die(mysqli_error($GLOBALS["___mysqli_ston"]));
+$de=mysqli_query($conn, "select sum(credit) as kdt, sum(debit) as dbt from cash where inv='$inv'")or die(mysqli_error($conn));
 while($lih=mysqli_fetch_array($de)){
 	
 $pdf->ln(3);

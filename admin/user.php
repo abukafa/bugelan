@@ -95,7 +95,15 @@ include 'navbar.php';
               </div>
               <div class="mb-2">
                 <label class="form-label" for="name">Nama Lengkap</label>
-                <input type="text" class="form-control form-control-sm" name="name" required>
+                <select type="text" class="form-select form-select-sm" name="name" required>
+                  <option value="">.. pilih ..</option>
+                  <?php 
+                  $guru=myquery("SELECT nama FROM guru ORDER BY nama");
+                  foreach($guru as $gr) :
+                    echo '<option>'. $gr['nama'] .'</option>';
+                  endforeach;
+                  ?>
+                </select>
               </div>
               <div class="mb-2">
                 <label class="form-label" for="pass">Password</label> 
@@ -122,7 +130,7 @@ include 'navbar.php';
                 <select class="form-select form-select-sm" name="akses" required>
                   <option value="-">.. pilih ..</option>
                   <option value="User">USER</option>
-                  <option value="Supervisor">SUPERVISOR</option>
+                  <option value="Superuser">SUPERUSER</option>
                   <option value="Manager">MANAGER</option>
                 </select>
               </div>
@@ -136,7 +144,6 @@ include 'navbar.php';
               </div>
             </form>
           </div>
-
         </div>
       </div>
     </div>    

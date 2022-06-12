@@ -47,7 +47,17 @@
       <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
       </button>
-      <label class="form-control form-control-dark" disabled>SISTEM INFORMASI MANAGEMEN SEKOLAH</label>
+      <label class="form-control form-control-dark" disabled>SISTEM INFORMASI - SMPT BUGELAN</label>
+      <li class="nav-item dropdown d-none d-md-inline-block">
+        <button class="btn btn-dark" data-bs-toggle="dropdown"><span data-feather="settings"></span></button>
+        <div class="dropdown-menu dropdown-menu-end">
+          <a class="dropdown-item" href="user"><i class="align-middle me-1" data-feather="user"></i> Pengguna</a>
+          <a class="dropdown-item" href="pass"><i class="align-middle me-1" data-feather="lock"></i> Password</a>
+          <!-- <a class="dropdown-item" href="manual"><i class="align-middle me-1" data-feather="help-circle"></i> Manual</a> -->
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="logout"><i class="align-middle me-1" data-feather="arrow-left-circle"></i> Logout</a>
+        </div>
+      </li>
     </header>
 
     <div class="container-fluid">
@@ -68,19 +78,19 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link <?php if($myurl === 'guru'){ echo 'active'; } ?>" href="guru">
-                  <span data-feather="file"></span>
+                  <span data-feather="file-text"></span>
                   Data Guru
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link <?php if($myurl === 'sisw'){ echo 'active'; } ?>" href="siswa">
-                  <span data-feather="file"></span>
+                  <span data-feather="file-text"></span>
                   Data Siswa
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link <?php if($myurl === 'nila'){ echo 'active'; } ?>" href="nilai">
-                  <span data-feather="file"></span>
+                  <span data-feather="grid"></span>
                   Nilai Akhir
                 </a>
               </li>
@@ -91,27 +101,33 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a class="nav-link <?php if($myurl === 'tabu'){ echo 'active'; } ?>" href="tabungan">
+                  <span data-feather="dollar-sign"></span>
+                  Tabungan
+                </a>
+              </li>
+              <li class="nav-item <?= $u['access'] == 'User' ? 'd-none' : '' ?>">
                 <a class="nav-link <?php if($myurl === 'sura' || $myurl === 'suratin' ){ echo 'active'; } ?>" href="surat">
                   <span data-feather="mail"></span>
                   Surat menyurat
                 </a>
               </li>
               <li class="nav-item">
+                <a class="nav-link <?php if($myurl === 'cash'){ echo 'active'; } ?>" href="cash">
+                  <span data-feather="shopping-bag"></span>
+                  Kas Kecil
+                </a>
+              </li>
+              <li class="nav-item <?= $u['access'] == 'User' ? 'd-none' : '' ?>">
                 <a class="nav-link <?php if($myurl === 'buku'){ echo 'active'; } ?>" href="buku">
                   <span data-feather="shopping-cart"></span>
                   Pembukuan
                 </a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item <?= $u['access'] == 'User' ? 'd-none' : '' ?>">
                 <a class="nav-link <?php if($myurl === 'akun'){ echo 'active'; } ?>" href="akun">
                   <span data-feather="bar-chart-2"></span>
                   Akuntansi
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link <?php if($myurl === 'user'){ echo 'active'; } ?>" href="user">
-                  <span data-feather="users"></span>
-                  Pengguna
                 </a>
               </li>
               <li class="border-top my-3"></li>
@@ -122,6 +138,12 @@
                 </a>
               </h5> 
               <li class="border-top my-3"></li>
+              <li class="nav-item">
+                <a class="nav-link <?php if($myurl === 'user'){ echo 'active'; } ?>" href="user">
+                  <span data-feather="users"></span>
+                  Pengguna
+                </a>
+              </li>
               <li class="nav-item">
                 <a class="nav-link <?php if($myurl === 'pass'){ echo 'active'; } ?>" href="pass">
                   <span data-feather="lock"></span>

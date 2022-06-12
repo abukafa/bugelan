@@ -14,7 +14,7 @@ $pdf->SetMargins(1,1,1);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
-$pdf->Image('../logo/kop.png',1,0.6,20,2); 
+$pdf->Image('../assets/logo/kop.png',1,0.6,20,2); 
 $pdf->Line(1,2.7,28.5,2.7);
 $pdf->SetLineWidth(0.1);      
 $pdf->Line(1,2.8,28.5,2.8);   
@@ -24,15 +24,15 @@ $awl=$_GET['tgl_awal'];
 $ahr=$_GET['tgl_ahir'];
 $pdf->ln(2.2);
 $pdf->SetFont('Arial','B',15);
-$pdf->Cell(0,0.7,'A L O K A S I    K E U A N G A N',0,1,'C');
+$pdf->Cell(0,0.7,'LAPORAN KEUANGAN',0,1,'C');
 $pdf->SetFont('Arial','B',12);
 $pdf->Cell(0,0.7,$awl .' s.d. '. $ahr,0,1,'C');
 
-$akun=mysqli_query($GLOBALS["___mysqli_ston"], "select * from account order by code");
+$akun=mysqli_query($conn, "SELECT * from account order by code");
 $jk=mysqli_num_rows($akun);
 	while($an=mysqli_fetch_array($akun)){
 	$akn=$an['code'];
-	$record=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * from finance where account='$akn' and date between '".$awl."' and '".$ahr."'");
+	$record=mysqli_query($conn, "SELECT * from finance where account='$akn' and date between '".$awl."' and '".$ahr."'");
 	if(mysqli_num_rows($record)>0){
 		$pdf->ln(1);
 		$pdf->SetFont('Arial','B',8);
@@ -46,7 +46,7 @@ $jk=mysqli_num_rows($akun);
 		$pdf->Cell(4, 0.8, 'Keterangan', 1, 0, 'C');
 		$pdf->Cell(2.5, 0.8, 'Debit', 1, 0, 'C');
 		$pdf->Cell(2.5, 0.8, 'Kredt', 1, 1, 'C');
-		$query=mysqli_query($GLOBALS["___mysqli_ston"], "select * from finance where account= '" . $akn . "' and date between '".$awl."' and '".$ahr."' order by date");
+		$query=mysqli_query($conn, "select * from finance where account= '" . $akn . "' and date between '".$awl."' and '".$ahr."' order by date");
 			while($lihat=mysqli_fetch_array($query)){
 			$pdf->SetFont('Arial','',8);
 			$pdf->Cell(1, 0.7, $lihat['id'],1,0, 'C');
@@ -60,7 +60,7 @@ $jk=mysqli_num_rows($akun);
 			$pdf->Cell(2.5, 0.7, number_format($lihat['credit'],0,'',','), 1, 1,'R');
 		}
 		$pdf->SetFont('Arial','B',8);
-		$jml=mysqli_query($GLOBALS["___mysqli_ston"], "select sum(debit) as jd, sum(credit) as jk from finance where account =  '" . $akn . "' and date between '".$awl."' and '".$ahr."'");
+		$jml=mysqli_query($conn, "select sum(debit) as jd, sum(credit) as jk from finance where account =  '" . $akn . "' and date between '".$awl."' and '".$ahr."'");
 			while($see=mysqli_fetch_array($jml)){
 			$jum=$see['jk']-$see['jd'];
 			$pdf->Cell(22.5, 0.8, 'Total', 1, 0,'C');
@@ -73,14 +73,10 @@ $pdf->ln(1.5);
 $pdf->SetFont('Arial','',10);
 $pdf->Cell(9.5, 0.5, '', 0, 0, 'C');
 $pdf->Cell(8.5, 0.5, '', 0, 0, 'C');
-$pdf->Cell(9.5, 0.5,"Ciamis, ".date("d M Y"), 0, 1, 'C');
+$pdf->Cell(9.5, 0.5,"Tasikmalaya, ".date("d M Y"), 0, 1, 'C');
 $pdf->Cell(9.5, 0.5,'Kepala', 0, 0, 'C');
 $pdf->Cell(8.5, 0.5, '', 0, 0, 'C');
 $pdf->Cell(9.5, 0.5,'Bag. Bendahara', 0, 1, 'C');
-$pdf->ln(2);
-$pdf->Cell(9.5, 0.5,'____________________', 0, 0, 'C');
-$pdf->Cell(8.5, 0.5, '', 0, 0, 'C');
-$pdf->Cell(9.5, 0.5,'____________________', 0, 1, 'C');
 
 $pdf->Output("laporan keuangan ". date("dmy") .".pdf","I");
 ?>

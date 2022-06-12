@@ -9,14 +9,14 @@ $pdf->SetAutoPageBreak(true);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
-$pdf->Image('../logo/kop.png',1,0.6,18,2); 
+$pdf->Image('../assets/logo/kop.png',1,0.6,18,2); 
 $pdf->Line(1,2.7,20,2.7);
 $pdf->SetLineWidth(0.1);      
 $pdf->Line(1,2.8,20,2.8);   
 $pdf->SetLineWidth(0);
 
-$id=mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_GET['id']);
-$surat=mysqli_query($GLOBALS["___mysqli_ston"], "select * from letter where id=" . $id);
+$id=mysqli_real_escape_string($conn, $_GET['id']);
+$surat=mysqli_query($conn, "select * from letter where id=" . $id);
 while($a=mysqli_fetch_array($surat)){
 
 $pdf->ln(3);

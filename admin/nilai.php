@@ -114,7 +114,11 @@ if(!isset($_GET['nisn'])){
 
         <div class="row mb-3">
             <div class="col-5 col-md-2">
+                <?php if($id<>'' && file_exists("../public/foto/" . $id . ".jpg")){?>
                 <img class="img-responsive w-100 rounded-3" id="preview" src="../public/foto/<?= $id ?>.jpg">
+                <?php }else{ ?>
+                <img class="img-responsive w-100 rounded-3" id="preview" src="../public/foto/no.png">
+                <?php } ?>
             </div>
             <div class="col-5 col-md-10">
                 <div class="row">

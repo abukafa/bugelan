@@ -1,6 +1,14 @@
 <?php 
 include 'header.php';
 include '../admin/config.php';
+if(date('m')<7){
+  $thn=date('Y')-1;
+}else{
+  $thn=date('Y');
+}
+$satu=$thn;
+$dua=$thn-1;
+$tiga=$thn-2;
 ?>
 <main class="content">
 	<div class="container mt-5">
@@ -128,15 +136,15 @@ var KLSChart = new Chart(ctx, {
             label: 'siswa',
             data: [
                 <?php 
-                $kls1 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM siswa WHERE tahun='2021'");
+                $kls1 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM siswa WHERE tahun='$satu'");
                 echo mysqli_num_rows($kls1);
                 ?>, 
                 <?php 
-                $kls2 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM siswa WHERE tahun='2020'");
+                $kls2 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM siswa WHERE tahun='$dua'");
                 echo mysqli_num_rows($kls2);
                 ?>, 
                 <?php 
-                $kls3 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM siswa WHERE tahun='2019'");
+                $kls3 = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM siswa WHERE tahun='$tiga'");
                 echo mysqli_num_rows($kls3);
                 ?>
             ],
@@ -247,9 +255,9 @@ var ctx = document.getElementById('FNChart')
         ],
         lineTension: 0,
         backgroundColor: 'transparent',
-        borderColor: 'rgba(255,99,132,1)',
+        borderColor: 'rgba(255,99,132,0.5)',
         borderWidth: 4,
-        pointBackgroundColor: 'rgba(255,99,132,0.2)'
+        pointBackgroundColor: 'rgba(255,99,132,1)'
       }, {
         label: 'Debit',
         data: [
@@ -328,9 +336,9 @@ var ctx = document.getElementById('FNChart')
         ],
         lineTension: 0,
         backgroundColor: 'transparent',
-        borderColor: 'rgba(54,162,235,1)',
+        borderColor: 'rgba(54,162,235,0.5)',
         borderWidth: 4,
-        pointBackgroundColor: 'rgba(54,162,235,0.2)'
+        pointBackgroundColor: 'rgba(54,162,235,1)'
       }]
     },
     options: {

@@ -11,7 +11,7 @@ if(date('m')<7){
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Data Siswa</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group me-2">
+        <div class="btn-group me-2 <?= $u['access'] == 'User' ? 'd-none' : '' ?>">
           <a href="siswa_edt"><button type="button" class="btn btn-sm btn-outline-secondary"><span data-feather="plus-circle"></span>
           Tambah Baru
         </button></a>
@@ -65,7 +65,7 @@ if(date('m')<7){
             <td class="d-none d-lg-table-cell"><?= $s['tempat_lahir'] . ', ' . date_format(date_create($s['tanggal_lahir']), "j M Y") ?></td>
             <td class="d-none d-lg-table-cell"><?= $s['nama_ayah'] ?></td>
             <td align="right">    
-              <a href="siswa_edt?id=<?php echo $s['id'] ?>" class="btn btn-sm btn-secondary"><span data-feather="edit"></span></a>
+              <a href="siswa_edt?id=<?php echo $s['id'] ?>" class="btn btn-sm btn-secondary <?= $u['access'] == 'User' ? 'd-none' : '' ?>"><span data-feather="edit"></span></a>
               <a href="siswa_lprt?id=<?php echo $s['id'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-primary"><span data-feather="printer"></span></a>
               <?php
               if ($u['access']=="Programmer" or $u['access']=="Manager"){

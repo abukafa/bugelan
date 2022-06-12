@@ -11,7 +11,7 @@ if(date('m')<7){
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
       <h1 class="h2">Data Guru</h1>
       <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group me-2">
+        <div class="btn-group me-2 <?= $u['access'] == 'User' ? 'd-none' : '' ?>">
           <a href="guru_edt"><button type="button" class="btn btn-sm btn-outline-secondary"><span data-feather="plus-circle"></span>
           Tambah Baru
         </button></a>
@@ -49,8 +49,7 @@ if(date('m')<7){
             <td class="d-none d-md-table-cell"><?= $g['tempat_lahir'] . ', ' . $g['tanggal_lahir'] ?></td>
             <td class="d-none d-md-table-cell"><?= $g['ket'] ?></td>
             <td align="right">    
-              <a href="guru_edt?id=<?php echo $g['id'] ?>" class="btn btn-sm btn-secondary"><span data-feather="edit"></span></a>
-              <a href="guru_lprt?id=<?php echo $g['id'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-primary"><span data-feather="printer"></span></a>
+              <a href="guru_edt?id=<?php echo $g['id'] ?>" class="btn btn-sm btn-secondary <?= $u['access'] == 'User' ? 'd-none' : '' ?>"><span data-feather="edit"></span></a>
               <?php
               if ($u['access']=="Programmer" or $u['access']=="Manager"){
               ?>

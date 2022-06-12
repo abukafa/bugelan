@@ -182,7 +182,7 @@ pre {
             <td class="d-none d-md-table-cell"><?= $a['session'] ?></td>
             <td class="d-none d-md-table-cell"><?= $a['note'] ?></td>
             <td>
-            <button class="btn btn-sm btn-danger float-md-end delete-<?php echo $a['id']; ?>"><span data-feather="trash-2"></span></button></button>
+            <button class="btn btn-sm btn-danger d-none d-md-block float-md-end delete-<?php echo $a['id']; ?>"><span data-feather="trash-2"></span></button></button>
               <script>
                 document.querySelector('.delete-<?php echo $a['id']; ?>').onclick = function(){
                 swal({

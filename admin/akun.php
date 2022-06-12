@@ -2,7 +2,7 @@
 include 'navbar.php';
 
 $uname = $_SESSION['uname'];
-$admin = mysqli_query($GLOBALS["___mysqli_ston"], "select * from admin where uname='$uname'");
+$admin = mysqli_query($conn, "select * from admin where uname='$uname'");
 while($u=mysqli_fetch_array($admin)){
 ?>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
@@ -39,7 +39,7 @@ while($u=mysqli_fetch_array($admin)){
           <tr>
           <?php 
           $no=1;
-          $akun=mysqli_query($GLOBALS["___mysqli_ston"], "select * from account order by code");
+          $akun=mysqli_query($conn, "select * from account order by code");
           while($a=mysqli_fetch_array($akun)){
           ?>
             <td class="d-none d-md-table-cell"><?php echo $no ?></td>
@@ -51,7 +51,7 @@ while($u=mysqli_fetch_array($admin)){
             <?php
             if ($u['access']=="Programmer" or $u['access']=="Manager"){
             ?>
-              <button class="btn btn-sm btn-danger float-md-end delete-<?php echo $a['code']; ?>"><span data-feather="trash-2"></span></button></button>
+              <button class="btn btn-sm btn-danger d-none d-md-inline-block float-md-end delete-<?php echo $a['code']; ?>"><span data-feather="trash-2"></span></button></button>
               <script>
                 document.querySelector('.delete-<?php echo $a['code']; ?>').onclick = function(){
                 swal({
@@ -93,7 +93,7 @@ while($u=mysqli_fetch_array($admin)){
           <div class="modal-body">
             <form role="form" action="akun_act?tambah" method="post">
               <?php
-              $query = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT max(code) as besar FROM account");
+              $query = mysqli_query($conn, "SELECT max(code) as besar FROM account");
               $data = mysqli_fetch_array($query);
               $de = $data['besar'];
               $urutan = (int) substr($de, 2, 3);
@@ -103,7 +103,7 @@ while($u=mysqli_fetch_array($admin)){
               <div class="mb-2">
                 <label class="form-label" for="kode">Kode Akun</label>
                 <input type="hidden" class="form-control form-control-sm" id="kd" value="<?php echo $kd; ?>">
-                <input type="text" class="form-control form-control-sm" name="kod" id="kod" readonly>
+                <input type="text" class="form-control form-control-sm" name="kod" id="kod">
               </div>
               <div class="mb-2">
                 <label class="form-label" for="unit">Kategori</label>
@@ -111,8 +111,8 @@ while($u=mysqli_fetch_array($admin)){
                   <option value="">.. pilih ..</option>
                   <option value="Aktiva">11 - Aktiva : Kekayaan milik Lembaga</option>
                   <option value="Ekuitas">22 - Ekuitas : Kekayaan bersumber dari Pemilik</option>
-                  <option value="Pendapatan">33 - Pendapatan : Pendapatan Lain-lain</option>
-                  <option value="Pengeluaran">44 - Pengeluaran : Biaya Kebutuhan Lembaga</option>
+                  <option value="Pendapatan">33 - Pendapatan : Lain-lain</option>
+                  <option value="Biaya">44 - Biaya : Kebutuhan Lembaga</option>
                 </select>
               </div>
               <script>    
@@ -127,7 +127,7 @@ while($u=mysqli_fetch_array($admin)){
                     document.getElementById('kod').value = 22 +kode;
                   }else if (unit=="Pendapatan"){
                     document.getElementById('kod').value = 33 +kode;
-                  }else if (unit=="Pengeluaran"){
+                  }else if (unit=="Biaya"){
                     document.getElementById('kod').value = 44 +kode;
                   }
                 };  

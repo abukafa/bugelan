@@ -19,7 +19,7 @@ $yth=$thn-1;
 	margin: auto;
 	}
     @media (min-width: 1200px) {  
-    h6 {font-size:1.5rem;} 
+    h6 {font-size:1.35rem;} 
     }
 </style>
 <main class="content mt-5">
@@ -62,7 +62,11 @@ $yth=$thn-1;
 
     <div class="row mb-3">
         <div class="col-5 col-md-2">
+            <?php if($id<>'' && file_exists("../public/foto/" . $id . ".jpg")){?>
             <img class="img-responsive w-100 rounded-3" id="preview" src="../public/foto/<?= $id ?>.jpg">
+            <?php }else{ ?>
+            <img class="img-responsive w-100 rounded-3" id="preview" src="../public/foto/no.png">
+            <?php } ?>
         </div>
         <div class="col-5 col-md-10">
             <div class="row">

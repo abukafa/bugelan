@@ -1,6 +1,5 @@
 <?php 
 include 'navbar.php';
-
 flash();
 
 ?>
@@ -13,9 +12,9 @@ flash();
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="container-fluid">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Transaksi</h1>
+      <h1 class="h2"><?= $_GET['ket']; ?></h1>
       <div class="btn-toolbar mb-2 mb-md-0">
-        <a  href="buku"><button type="button" class="btn btn-sm btn-outline-secondary">
+        <a  href="cash"><button type="button" class="btn btn-sm btn-outline-secondary">
           <span data-feather="arrow-left"></span>
           Kembali
         </button></a>
@@ -23,7 +22,7 @@ flash();
     </div>
 
     <div class="bd-heading align-self-start mt-5 mb-3 mt-xl-0 mb-xl-2">
-      <form class="row g-2" action="buku_act?tambah" method="post">
+      <form class="row g-2" action="cash_act?tambah" method="post">
         <div class="col-md-2">
           <label for="inv" class="form-label">Invoice</label>
           <input type="text" class="form-control" name="inv" id="inv" value="<?php echo $_GET['inv']; ?>" readonly="yes">
@@ -32,12 +31,12 @@ flash();
           <label for="tgl" class="form-label">Tanggal</label>
           <input type="text" class="form-control" name="tgl" id="tgl" value="<?php echo $_GET['tgl']; ?>" required>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
           <label for="akun" class="form-label">Akun</label>
-          <select type="text" class="form-select" name="akun" id="akun" onchange="getAkun(this.value)" required>
+          <select type="text" class="form-select" name="akun" id="akun" required>
             <option value="-">.. pilih ..</option>
             <?php 
-            $akun=mysqli_query($conn, "select * from account order by code");
+            $akun=mysqli_query($conn, "select * from account where code>44000 order by code");
             $jsArray = "var acc = new Array();\n";        
             while($c=mysqli_fetch_array($akun)){
             echo '<option value="' . $c['code'] . '">' . $c['code'] ." - ". $c['name'] . '</option>';
@@ -46,22 +45,10 @@ flash();
             ?>
           </select>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-4">
           <label for="vend" class="form-label">Vendor</label>
           <input class="form-control" name="vend" id="vend" value="<?php echo $_GET['vend']; ?>" required>
-          <select class="form-select d-none" id="guru" onchange="namaGuru(this.value)">
-            <option value="">.. pilih ..</option>
-            <?php 
-            $guru=myquery("SELECT nama FROM guru ORDER BY nama");
-            foreach($guru as $gr) :
-              echo '<option>'. $gr['nama'] .'</option>';
-            endforeach;
-            ?>
-          </select>
-        </div>
-        <div class="col-md-4">
-          <label for="ket" class="form-label">Keterangan</label>
-          <input type="text" class="form-control" name="ket" id="ket" value="<?php echo $_GET['ket']; ?>" required>
+          <input type="hidden" class="form-control" name="ket" id="ket" value="<?php echo $_GET['ket']; ?>" required>
         </div>
         <div class="col-md-6">
           <label for="des" class="form-label">Deskripsi</label>
@@ -74,13 +61,16 @@ flash();
         <div class="col-md-4">
         <?php 
         $inv=$_GET['inv'];
-        $query=mysqli_query($conn, "select sum(debit) as dbt, sum(credit) as kdt from finance where inv='$inv' ");
+        $query=mysqli_query($conn, "select sum(debit) as dbt, sum(credit) as kdt from cash where inv='$inv'");
         while($t=mysqli_fetch_assoc($query)){
-        $total = $t['dbt'] - $t['kdt'];
+            $total = $t['kdt'] - $t['dbt'];
+            $fin=myquery("SELECT sum(debit) as dbt, sum(credit) as kdt from finance where inv='$inv'");
+            $uang = $fin[0]['kdt'] - $fin[0]['dbt'];
+            $ang = $uang-$total;
         ?>
         
-        <label for="tot" class="form-label">Total</label>
-        <input type="text" class="form-control" id="tot" value="<?php echo number_format($total,0,'',','); ?>" readonly="yes">
+        <label for="tot" class="form-label">Anggaran</label>
+        <input type="text" class="form-control" id="tot" value="<?php echo number_format($ang,0,'',','); ?>" readonly="yes">
         
         <?php   
         }
@@ -88,7 +78,7 @@ flash();
         </div>
         <div class="col-12 mt-3">
           <input type="submit" class="btn btn-primary btn-sm" value="Simpan" onclick="makeReadonly()"></button>
-          <a href="buku" type="button" class="btn btn-secondary btn-sm">Selesai</a>
+          <a href="cash" type="button" class="btn btn-secondary btn-sm">Selesai</a>
         </div>
       </form>
     </div>
@@ -96,7 +86,7 @@ flash();
   
 <div class="container-fluid">
   <?php
-    $jum=mysqli_query($conn, "SELECT * from finance where inv='$inv' ");
+    $jum=mysqli_query($conn, "SELECT * from cash where inv='$inv'");
     $jum=mysqli_num_rows($jum); 
     echo "<h6 class='fw-bold pt-3 pt-xl-5 pb-2 pb-xl-3'><a style='color:blue'>". $jum ." item</a></h6>";
   ?>
@@ -112,9 +102,9 @@ flash();
     <?php 
     if(isset($_GET['inv'])){
       $inv=mysqli_real_escape_string($conn, $_GET['inv']);
-      $brg=mysqli_query($conn, "select * from finance where inv='$inv' order by id desc");
+      $brg=mysqli_query($conn, "select * from cash where inv='$inv' order by id desc");
     }else{
-      $brg=mysqli_query($conn, "select * from finance order by id desc");
+      $brg=mysqli_query($conn, "select * from cash order by id desc");
     }
     $no=1;
     while($b=mysqli_fetch_array($brg)){
@@ -127,7 +117,7 @@ flash();
         <td class="d-none d-lg-table-cell"><?php echo $b['des'] ?></td>   
         <td class="text-end"><?php echo number_format($b['credit'] - $b['debit'],0,'',','); ?></td>
         <td class="text-end"> 
-          <a href="#" type="button" class="btn btn-secondary btn-sm <?= $u['access']=='User' ? 'd-none' : '' ?>" data-bs-toggle="modal" data-bs-target="#edit<?php echo $b['id']; ?>"><span data-feather="edit"></span></a>
+          <a href="#" type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#edit<?php echo $b['id']; ?>"><span data-feather="edit"></span></a>
           <?php
           if ($u['access']=="Programmer" or $u['access']=="Manager"){
           ?>
@@ -144,7 +134,7 @@ flash();
                   closeOnConfirm: false
                 },
                 function(){
-                  location.href="buku_act?hapus=<?php echo $b['id']; ?>";
+                  location.href="cash_act?hapus=<?php echo $b['id']; ?>";
                 });
                 };
               </script>
@@ -164,7 +154,7 @@ flash();
           <div class="modal-header">
             <?php
             $id=$b['id'];
-            $query_edit = mysqli_query($conn, "SELECT * FROM finance WHERE id='$id'");
+            $query_edit = mysqli_query($conn, "SELECT * FROM cash WHERE id='$id'");
             while ($row = mysqli_fetch_array($query_edit)) {  
             ?>
             <h5 class="modal-title" id="staticBackdropLiveLabel">Edit Transaksi <?php echo $row['id']; ?></h5>
@@ -172,7 +162,7 @@ flash();
           </div>
 
           <div class="modal-body">
-            <form role="form" action="buku_act?ubah" method="post">
+            <form role="form" action="cash_act?ubah" method="post">
               <div class="mb-2">
                 <label class="form-label">Invoice</label>
                 <input type="hidden" class="form-control form-control-sm" name="id" value="<?php echo $row['id']; ?>">
@@ -260,18 +250,6 @@ flash();
 
 <script type="text/javascript">
     feather.replace({ 'aria-hidden': 'true' });
-    function getAkun(akun){
-      if(akun == 44000){
-        document.getElementById('vend').className='form-control d-none';
-        document.getElementById('guru').className='form-select d-block';
-        document.getElementById('guru').focus();
-      }else{
-        document.getElementById('guru').className='form-select d-none';
-        document.getElementById('vend').className='form-control d-block';
-        document.getElementById('vend').value='';
-        document.getElementById('vend').focus();
-      }
-    }
     function namaGuru(guru){
       document.getElementById('vend').value=guru;
       document.getElementById('ket').focus();
