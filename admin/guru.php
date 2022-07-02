@@ -49,7 +49,7 @@ if(date('m')<7){
             <td class="d-none d-md-table-cell"><?= $g['tempat_lahir'] . ', ' . $g['tanggal_lahir'] ?></td>
             <td class="d-none d-md-table-cell"><?= $g['ket'] ?></td>
             <td align="right">    
-              <a href="guru_edt?id=<?php echo $g['id'] ?>" class="btn btn-sm btn-secondary <?= $u['access'] == 'User' ? 'd-none' : '' ?>"><span data-feather="edit"></span></a>
+              <a href="guru_edt?id=<?php echo $g['id'] ?>" class="btn btn-sm btn-secondary <?= $u['name'] == $g['nama'] || $u['access'] <> 'User' ? '' : 'disabled' ?>"><span data-feather="edit"></span></a>
               <?php
               if ($u['access']=="Programmer" or $u['access']=="Manager"){
               ?>

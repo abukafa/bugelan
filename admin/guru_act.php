@@ -17,6 +17,7 @@ if(isset($_GET['tambah'])){
     $kelurahan = $_POST['kelurahan'];
     $kecamatan = $_POST['kecamatan'];
     $kode_pos = $_POST['kode_pos'];
+    $hp = $_POST['hp'];
     $ket = $_POST['ket'];
     mysqli_query($conn, "INSERT INTO guru VALUES(
         '', 
@@ -34,6 +35,7 @@ if(isset($_GET['tambah'])){
         '$kelurahan',
         '$kecamatan',
         '$kode_pos',
+        '$hp',
         '$ket')
     ");
 
@@ -62,6 +64,7 @@ if(isset($_GET['ubah'])){
     $kelurahan = $_POST['kelurahan'];
     $kecamatan = $_POST['kecamatan'];
     $kode_pos = $_POST['kode_pos'];
+    $hp = $_POST['hp'];
     $ket = $_POST['ket'];
     mysqli_query($conn, "UPDATE guru SET
         nig = '$nig',
@@ -78,10 +81,22 @@ if(isset($_GET['ubah'])){
         kelurahan = '$kelurahan',
         kecamatan = '$kecamatan',
         kode_pos = '$kode_pos',
+        hp = '$hp',
         ket = '$ket'
     WHERE id='$id'");
 
-    if(mysqli_affected_rows($conn) > 0){
+    // UPLOAD FOTO
+    if($_FILES['file']['error'] === 0){
+        $nama = $_FILES['file']['name'];
+        // $ekst = explode('.', $nama);
+        // $ekst = strtolower(end($ekst));
+        $tmp = $_FILES['file']['tmp_name'];
+        $namaFile = $nig . '.jpg';
+
+        move_uploaded_file($tmp, '../public/foto/' . $namaFile);
+    }
+
+    if(mysqli_affected_rows($conn) > 0 || $_FILES['file']['error'] === 0){
         flasher('Mengubah!', $nama, 'success');
     }else{
         flasher('Gagal!', 'Tidak ada perubahan', 'error');

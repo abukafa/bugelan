@@ -49,40 +49,87 @@ $tiga=$thn-2;
 		<!-- membuat tabel rekap nilai -->  
 		<p class="display-6 text-center mb-4">Guru Penggerak</p>
 		<div class="card mb-5">
-            <div class="card-body">
-                <table class="table table-bordered table-striped">
-                    <thead>
-                        <tr class="text-center">
-                            <th class="d-none d-md-table-cell">NIG</th>
-                            <th>Name</th>
-                            <th class="d-none d-md-table-cell">JK</th>
-                            <th>Ket</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                            $san=mysqli_query($GLOBALS["___mysqli_ston"], "select * from guru order by nig, nama");
-                            if($san === false) {
-                                die(mysqli_error($GLOBALS["___mysqli_ston"]));
-                            }
-                        while($s=mysqli_fetch_assoc($san)){
-                        ?>  
-                        <tr>
-                            <td class="d-none d-md-table-cell text-center"><?php echo $s['nig'] ?></td>
-                            <td><?php echo $s['nama'] ?></td>
-                            <td class="d-none d-md-table-cell text-center"><?php echo $s['jk'] == 'L' ? 'Laki-laki' : 'Perempuan' ?></td>
-                            <td><?php echo $s['ket'] ?></td>
-                        </tr>
-                        <?php
-                        }
-                        ?>
-                    </tbody>
-                </table>
-            </div>
+      <div class="card-body">
+          <table class="table table-bordered table-striped">
+              <thead>
+                  <tr class="text-center">
+                      <th class="d-none d-md-table-cell">NIG</th>
+                      <th>Nama</th>
+                      <th class="d-none d-md-table-cell">JK</th>
+                      <th>Data</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <?php
+                      $san=mysqli_query($GLOBALS["___mysqli_ston"], "select * from guru order by nig, nama");
+                      if($san === false) {
+                          die(mysqli_error($GLOBALS["___mysqli_ston"]));
+                      }
+                  while($s=mysqli_fetch_assoc($san)){
+                  ?>  
+                  <tr>
+                      <td class="d-none d-md-table-cell text-center"><?php echo $s['nig'] ?></td>
+                      <td><?php echo $s['nama'] ?></td>
+                      <td class="d-none d-md-table-cell text-center"><?php echo $s['jk'] == 'L' ? 'Laki-laki' : 'Perempuan' ?></td>
+                      <td class="text-center">
+                        <a class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modal-<?php echo $s['nig'] ?>"><span data-feather="eye"></span></a>
+                      </td>
+                  </tr>
+                  <!-- Modal View Data-->
+                  <div class="modal fade" id="modal-<?php echo $s['nig'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modalLabel">Guru Penggerak</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <form>
+                            <div class="text-center">
+                              <?php if(file_exists("foto/" . $s['nig'] . ".jpg")){?>
+                              <img class="img-responsive w-50 rounded-3" id="preview" src="foto/<?= $s['nig'] ?>.jpg">
+                              <?php }else{ ?>
+                              <img class="img-responsive w-50 rounded-3" id="preview" src="foto/no.png">
+                              <?php } ?>
+                            </div>
+                            <div class="my-2">
+                              <label class="form-label" for="kode">Nama</label>
+                              <input type="text" class="form-control form-control" id="kd" value="<?php echo $s['nama'] ?>" disabled>
+                            </div>
+                            <div class="mb-2">
+                              <label class="form-label" for="des">Status</label>
+                              <input type="textarea" class="form-control form-control" name="des" value="<?php echo $s['status'] ?>" disabled>
+                            </div>
+                            <div class="mb-2">
+                              <label class="form-label" for="nama">Jabatan</label> 
+                              <input type="text" class="form-control form-control" name="nama" value="<?php echo $s['jabatan'] ?>" disabled>
+                            </div>
+                            <div class="mb-2">
+                              <label class="form-label" for="des">Keterangan</label>
+                              <input type="textarea" class="form-control form-control" name="des" value="<?php echo $s['ket'] ?>" disabled>
+                            </div>
+                            <div class="mb-2">
+                              <label class="form-label" for="des">No. Handphone</label>
+                              <input type="textarea" class="form-control form-control" name="des" value="<?php echo $s['hp'] ?>" disabled>
+                            </div>
+                          </form>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div> 
+                  <?php
+                  }
+                  ?>
+              </tbody>
+          </table>
+      </div>
 		</div>
 	</div>
 </main>
    
+
+
 <!---------------------------------------------------------->
 
 <script>

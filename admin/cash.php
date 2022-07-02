@@ -92,7 +92,7 @@ $y = date('Y-m-d', strtotime('-1 year'));
             <td class="text-end">
               <div class="">    
                 <a href="cash_add?tgl=&vend=&ket=<?php echo $f['remark'] ?>&inv=<?php echo $f['inv'] ?>" class="btn btn-sm btn-secondary <?= $f['vendor']<>$u['name'] ? 'disabled' : '' ?>"><span data-feather="edit"></span></a>
-                <a href="cash_lpalok?inv=<?php echo $f['inv'] ?>&ket=<?php echo $f['remark']; ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-primary <?= $f['vendor']<>$u['name'] ? 'disabled' : '' ?>"><span data-feather="printer"></span></a>
+                <a href="cash_lpalok?inv=<?php echo $f['inv'] ?>&ket=<?php echo $f['remark']; ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-primary <?= $f['vendor']<>$u['name'] || $u['access']=='Manager' ? 'disabled' : '' ?>"><span data-feather="printer"></span></a>
               </div>
             </td>
           </tr>
