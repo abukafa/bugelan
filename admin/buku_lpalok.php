@@ -14,15 +14,15 @@ $pdf->SetMargins(1,1,1);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
-$pdf->Image('../assets/logo/kop.png',1,0.6,20,2); 
-$pdf->Line(1,2.7,28.5,2.7);
+$pdf->Image('../assets/logo/kop.png',1,0.5,27.5,2.9); 
+$pdf->Line(1,3.5,28.5,3.5);
 $pdf->SetLineWidth(0.1);      
-$pdf->Line(1,2.8,28.5,2.8);   
+$pdf->Line(1,3.6,28.5,3.6);   
 $pdf->SetLineWidth(0);
 
 $awl=$_GET['tgl_awal'];
 $ahr=$_GET['tgl_ahir'];
-$pdf->ln(2.2);
+$pdf->ln(3);
 $pdf->SetFont('Arial','B',15);
 $pdf->Cell(0,0.7,'LAPORAN KEUANGAN',0,1,'C');
 $pdf->SetFont('Arial','B',12);
@@ -34,7 +34,7 @@ $jk=mysqli_num_rows($akun);
 	$akn=$an['code'];
 	$record=mysqli_query($conn, "SELECT * from finance where account='$akn' and date between '".$awl."' and '".$ahr."'");
 	if(mysqli_num_rows($record)>0){
-		$pdf->ln(1);
+		$pdf->ln(0.5);
 		$pdf->SetFont('Arial','B',8);
 		$pdf->Cell(0,0.7, $an['code'] . ' - ' . $an['unit'] . ' : ' . $an['name'] ,0,1,'L');
 		$pdf->Cell(1, 0.8, 'ID', 1, 0, 'C');

@@ -7,6 +7,7 @@ if(date('m')<7){
 }else{
     $thn=date('Y');
 }
+$alm=$thn-3;
 
 $pdf = new FPDF("P","cm","A4");
 
@@ -14,14 +15,13 @@ $pdf->SetMargins(1,1,1);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
-$pdf->Image('../assets/logo/kop.png',1,0.6,15,1.5); 
-$pdf->Line(1,2.2,20,2.2);
+$pdf->Image('../assets/logo/kop.png',1,0.5,19,2); 
+$pdf->Line(1,2.7,20,2.7);
 $pdf->SetLineWidth(0.1);      
-$pdf->Line(1,2.3,20,2.3);   
+$pdf->Line(1,2.8,20,2.8);   
 $pdf->SetLineWidth(0);
 
-//$per=$_GET['period'];
-$pdf->ln(2);
+$pdf->ln(2.5);
 $pdf->SetFont('Arial','B',14);
 $pdf->Cell(0,0.7,'INDEX ABSENSI SISWA',0,1,'C');
 $pdf->Cell(0,0.7,'Update '.date("d M Y"),0,1,'C');
@@ -42,7 +42,7 @@ $pdf->Cell(1.5, 0.7, 'S', 1, 0, 'C');
 $pdf->Cell(1.5, 0.7, 'A', 1, 1, 'C');
 
 $no=1;
-$query=mysqli_query($conn, "select * from siswa");
+$query=mysqli_query($conn, "SELECT * from siswa where tahun>'$alm'");
 while($lihat=mysqli_fetch_assoc($query)){
 	$pdf->SetFont('Arial','',8);
 	$ni=$lihat['nisn'];

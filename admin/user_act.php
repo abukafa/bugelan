@@ -28,3 +28,28 @@ if(isset($_GET['hapus'])){
     }
     header("Location:user");
 }
+
+if(isset($_GET['showCollumn'])){
+    $tab=$_GET['showCollumn'];
+    $kols = myquery("SHOW COLUMNS FROM ". $tab);
+    echo "<option value=''>.. none ..</option>";
+    foreach($kols as $kol) :
+        echo "<option>" . $kol['Field'] . "</option>";
+    endforeach;
+}
+
+// FUNGSI USER SQL -------------------------------------------------------------------------------------
+if(isset($_GET['userSQL'])){
+    if($_GET['userSQL']=="edit"){
+        global $conn;
+        $userQuery = $_POST['query'];
+        $q = mysqli_query($conn, $userQuery);
+        if($q){
+            header("Location: user?userSQL");
+            flasher('Your SQL query has been ', 'executed successfully', 'success');
+        }else{
+            header("Location: user?userSQL");
+            flasher('Your SQL query not executed ', 'check it back dude!', 'danger');
+        }
+    }
+}

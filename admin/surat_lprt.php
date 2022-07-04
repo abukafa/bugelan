@@ -9,17 +9,18 @@ $pdf->SetAutoPageBreak(true);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
-$pdf->Image('../assets/logo/kop.png',1,0.6,18,2); 
+$pdf->Image('../assets/logo/kop.png',1,0.5,19,2); 
 $pdf->Line(1,2.7,20,2.7);
 $pdf->SetLineWidth(0.1);      
 $pdf->Line(1,2.8,20,2.8);   
 $pdf->SetLineWidth(0);
 
+$pdf->ln(3);
+
 $id=mysqli_real_escape_string($conn, $_GET['id']);
 $surat=mysqli_query($conn, "select * from letter where id=" . $id);
 while($a=mysqli_fetch_array($surat)){
 
-$pdf->ln(3);
 $pdf->SetFont('Arial','',10);
 $pdf->Cell(3,0.6,'Nomor',0,0,'L');
 $pdf->Cell(4,0.6,': ' . $a['no'] ,0,1,'L');

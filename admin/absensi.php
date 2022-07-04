@@ -40,27 +40,27 @@ pre {
 
 <main class="<?= isset($_GET['go']) ? '' : 'col-md-9 ms-sm-auto col-lg-10 px-md-4' ?>">
   <div class="container">
-    <div class="d-md-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Absensi</h1>
-        <?php  if(isset($_GET['go'])){ ?>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+      <?php  if(isset($_GET['go'])){ ?>
       <h3 class="text-danger" id="clock"></h3>
       <div class="btn-toolbar">
         <?php if($_GET['go']<>'no') { ?>
-          <a href="?go=no" class="btn btn-outline-secondary btn-sm me-2"><span data-feather="camera-off"></span></a>
+        <a href="?go=no" class="btn btn-outline-secondary btn-sm me-2"><span data-feather="camera-off"></span></a>
         <?php }else{ ?>
-          <a href="?go" class="btn btn-outline-secondary btn-sm me-2"><span data-feather="camera"></span></a>
+        <a href="?go" class="btn btn-outline-secondary btn-sm me-2"><span data-feather="camera"></span></a>
         <?php } ?>
-        <a href="logout" class="btn btn-dark btn-sm">Keluar</a>
+        <a href="logout" class="btn btn-dark btn-sm"><span data-feather="log-out"></span></a>
         <?php }else{ ?>
+      <h1 class="h2">Absensi</h1>
       <div class="btn-toolbar">
         <form action="" method="get">
           <select type="submit" name="tgl_awl" class="btn btn-sm btn-outline-secondary me-2" onchange="this.form.submit()">
             <option value="">.. Filter ..</option>
-            <option value="<?php echo $n ?>">Hari ini</option>
-            <option value="<?php echo $w ?>">Pekan ini</option>
-            <option value="<?php echo $m ?>">Bulan ini</option>
-            <option value="<?php echo $s ?>">Semester ini</option>
-            <option value="<?php echo $y ?>">Tahun ini</option>
+            <option value="<?= $n ?>">Hari ini</option>
+            <option value="<?= $w ?>">Pekan ini</option>
+            <option value="<?= $m ?>">Bulan ini</option>
+            <option value="<?= $s ?>">Semester ini</option>
+            <option value="<?= $y ?>">Tahun ini</option>
           </select>
         </form>
         <a href="absensi?go" class="btn btn-dark btn-sm">Memulai</a>
@@ -69,10 +69,15 @@ pre {
     </div>
   <?php
   if(isset($_GET['tgl_awl'])){
-    $awl=$_GET['tgl_awl'];
-    echo "<div class='btn-group float-end mb-2'><button type='button' class='btn btn-sm btn-outline-primary'><a href='absensi_laphis?tgl_awal=". $awl ."&tgl_ahir=". $n ."' target='_blank' style='text-decoration:none'>Rekap</a></button><button type='button' class='btn btn-sm btn-outline-primary'><a href='absensi_lapsum' target='_blank' style='text-decoration:none'>Index</a></button><button class='btn btn-sm btn-primary'><span data-feather='printer'></span></button></div><br/>";
-  }
+  $awl=$_GET['tgl_awl'];
   ?>
+    <div class="btn-group float-end mb-2">
+      <a class="btn btn-sm btn-outline-primary absen-kls">Kelas</a>
+      <a class="btn btn-sm btn-outline-primary" href="absensi_laphis?tgl_awal=<?= $awl ?>&tgl_ahir=<?= $n ?>" target="_blank" style="text-decoration:none">Rekap</a>
+      <a class="btn btn-sm btn-outline-primary" href="absensi_lapsum" target="_blank" style="text-decoration:none">Index</a>
+      <a class="btn btn-sm btn-primary"><span data-feather="printer"></span></a>
+    </div><br/>
+  <?php } ?>
   </div>
   
   <?php  if(isset($_SESSION['flashin'])){ ?>
@@ -93,7 +98,7 @@ pre {
   <?php } ?>
 
   <div class="container <?= !isset($_GET['go']) ? 'd-none' : '' ?>">
-    <div id="qr-reader" style="width:400px"></div>
+    <div id="qr-reader" style="width:100%"></div>
     <div class="bd-heading align-self-start my-3">
       <form class="row g-2" action="absensi_act?tambah=<?= $_GET['go'] ?>" method="post">
         <div class="col-md-3">
@@ -127,10 +132,10 @@ pre {
       <table class="table table-striped table-sm">
         <thead>
           <tr>
-            <th scope="col">Tanggal</th>
+            <th scope="col" class="d-none d-md-table-cell">Tanggal</th>
             <th scope="col">Jam</th>
-            <th scope="col">nisn</th>
-            <th scope="col" class="d-none d-md-table-cell">nama</th>
+            <th scope="col" class="d-none d-md-table-cell">nisn</th>
+            <th scope="col">nama</th>
             <th scope="col" class="d-none d-md-table-cell">Terlambat</th>
             <th scope="col" class="d-none d-md-table-cell">Ket</th>
             <th scope="col" class="d-none d-md-table-cell">Note</th>
@@ -150,17 +155,18 @@ pre {
             $no=1;
             while($a=mysqli_fetch_array($absen)){
             ?>
-            <td><?= $a['date'] ?></td>
+            <td class="d-none d-md-table-cell"><?= $a['date'] ?></td>
             <td><?= $a['time'] == '00:00:00' ? '' : $a['time'] ?></td>
-            <td><?= $a['nisn'] ?></td>
-            <td class="d-none d-md-table-cell"><?= $a['name'] ?></td>
+            <td class="d-none d-md-table-cell"><?= $a['nisn'] ?></td>
+            <td><?= $a['name'] ?></td>
             <td class="d-none d-md-table-cell"><?= $a['late'] == '00:00:00' ? '' : $a['late'] ?></td>
             <td class="d-none d-md-table-cell"><?= $a['ket'] ?></td>
             <td class="d-none d-md-table-cell"><?= $a['note'] ?></td>
-            <td>
-            <button class="btn btn-sm btn-danger <?= isset($_GET['go']) || $u['access'] == 'User' ? 'd-none' : '' ?> float-md-end delete-<?php echo $a['id']; ?>"><span data-feather="trash-2"></span></button>
+            <td class="text-end">
+            <a class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modal-<?= $a['id'] ?>"><span data-feather="eye"></span></a>
+            <button class="btn btn-sm btn-danger <?= isset($_GET['go']) || $u['access'] == 'User' ? 'd-none' : '' ?> delete-<?= $a['id']; ?>"><span data-feather="trash-2"></span></button>
               <script>
-                document.querySelector('.delete-<?php echo $a['id']; ?>').onclick = function(){
+                document.querySelector('.delete-<?= $a['id']; ?>').onclick = function(){
                   swal({
                     title: "Yakin?",
                     text: "Data tidak bisa dikembalikan!",
@@ -171,12 +177,58 @@ pre {
                     closeOnConfirm: false
                   },
                   function(){
-                    location.href="absensi_act?hapus=<?php echo $a['id']; ?>";
+                    location.href="absensi_act?hapus=<?= $a['id']; ?>";
                   });
                 };
               </script>
             </td>
           </tr>
+					<!-- Modal View Data-->
+					<div class="modal fade" id="modal-<?= $a['id'] ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
+						<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+							<h5 class="modal-title" id="modalLabel">Data Absensi</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body">
+							<form>
+								<div class="text-center">
+								<?php if(file_exists("../public/foto/" . $a['id_siswa'] . ".jpg")){?>
+								<img class="img-responsive w-50 rounded-3" id="preview" src="../public/foto/<?= $a['id_siswa'] ?>.jpg">
+								<?php }else{ ?>
+								<img class="img-responsive w-50 rounded-3" id="preview" src="../public/foto/no.png">
+								<?php } ?>
+								</div>
+								<div class="my-2">
+								<label class="form-label" for="kode">Nama</label>
+								<input type="text" class="form-control form-control" id="kd" value="<?= $a['name'] ?>" disabled>
+								</div>
+								<div class="mb-2">
+								<label class="form-label" for="des">NISN</label>
+								<input type="textarea" class="form-control form-control" name="des" value="<?= $a['nisn'] ?>" disabled>
+								</div>
+								<div class="mb-2">
+								<label class="form-label" for="des">Absensi</label>
+								<input type="textarea" class="form-control form-control" name="des" value="<?= $a['date'] .' '. $a['time'] ?>" disabled>
+								</div>
+								<div class="mb-2">
+								<label class="form-label" for="des">Keterlambatan</label>
+								<input type="textarea" class="form-control form-control" name="des" value="<?= $a['late'] ?>" disabled>
+								</div>
+								<div class="mb-2">
+								<label class="form-label" for="des">Ketidakhadiran</label>
+                <div class="input-group">
+								<input type="textarea" class="form-control form-control" name="des" value="<?= $a['ket'] ?>" disabled>
+								<input type="textarea" class="form-control form-control" name="des" value="<?= $a['note'] ?>" disabled>
+                </div>
+								</div>
+							</form>
+							</div>
+
+						</div>
+						</div>
+					</div> 
           <?php
           $no++;
           }
@@ -246,7 +298,28 @@ pre {
               }
         }
         var html5QrcodeScanner = new Html5QrcodeScanner(
-            "qr-reader", { fps: 10, qrbox: 250 });
+          "qr-reader", { fps: 10, qrbox: 250 });
         html5QrcodeScanner.render(onScanSuccess);
     });
+
+    document.querySelector('.absen-kls').onclick = function(){
+      var today = new Date();
+      var todate = today.getFullYear()+'-'+zeroPad((today.getMonth()+1), 2)+'-'+zeroPad(today.getDate(), 2);
+
+      swal({
+        title: "Absensi Kelas",
+        text: "Tuliskan Kelas :",
+        type: "input",
+        showCancelButton: true,
+        closeOnConfirm: true,
+        inputPlaceholder: "7 / 8 / 9"
+      }, function (inputValue) {
+          if (inputValue === false) return false;
+          if (inputValue === "") {
+            swal.showInputError("You need to write something!");
+            return false
+          }
+          window.open("absensi_lap?kls=" + inputValue + "&tgl=" + todate, "_blank");
+      });
+    }
 </script>

@@ -14,13 +14,13 @@ $pdf->SetMargins(1,1,1);
 $pdf->AliasNbPages();
 $pdf->AddPage();
 
-$pdf->Image('../assets/logo/kop.png',1,0.6,17,2); 
+$pdf->Image('../assets/logo/kop.png',1,0.5,19,2); 
 $pdf->Line(1,2.7,20,2.7);
 $pdf->SetLineWidth(0.1);      
 $pdf->Line(1,2.8,20,2.8);   
 $pdf->SetLineWidth(0);
 
-$pdf->ln(2.2);
+$pdf->ln(2.5);
 $pdf->SetFont('Arial','B',15);
 $pdf->Cell(0,0.7,'I N D E X   K E U A N G A N',0,1,'C');
 $pdf->SetFont('Arial','B',12);

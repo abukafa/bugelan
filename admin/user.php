@@ -4,7 +4,7 @@ include 'navbar.php';
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="container-fluid">
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-      <h1 class="h2">Data Pengguna (user)</h1>
+      <h1 class="h2">Data Pengguna</h1>
       <?php
       if ($u['access']=="Programmer" or $u['access']=="Manager"){
       ?>
@@ -48,7 +48,7 @@ include 'navbar.php';
               <?php
               if ($u['access']=="Programmer" or $u['access']=="Manager"){
               ?>
-              <button class="btn btn-sm btn-danger float-md-end delete-<?php echo $a['id']; ?>" <?php if($a['access']=="Programmer"){echo "disabled";} ?>><span data-feather="trash-2"></span></button></button>
+              <button class="btn btn-sm btn-danger float-end delete-<?php echo $a['id']; ?>" <?php if($a['access']=="Programmer"){echo "disabled";} ?>><span data-feather="trash-2"></span></button></button>
               <script>
                 document.querySelector('.delete-<?php echo $a['id']; ?>').onclick = function(){
                 swal({
@@ -77,6 +77,114 @@ include 'navbar.php';
       </table>
     </div>
 
+
+		<article class="pb-2 mb-3 <?= $u['access'] == "Programmer" ? "d-block" : "d-none" ?>">
+			<!-- Menu mysql -->
+			<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center">
+			<h1 class="h2 mb-3">Edit Database</h1>
+			</div>
+			<div>
+			<div class="accordion" id="accordionExample">
+				<div class="accordion-item">
+				<h4 class="accordion-header" id="headingOne">
+					<button class="accordion-button <?= isset($_GET['userSQL']) ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+					<b>User SQL Query</b>
+					</button>
+				</h4>
+				<div id="collapseOne" class="accordion-collapse collapse <?= isset($_GET['userSQL']) ? 'show' : '' ?>" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+					<div class="accordion-body">
+					<form action="user_act.php?userSQL=edit" method="post">
+						<div class="row">
+							<div class="col-6 col-md-2 mb-2">
+								<label class="form-label">Aksi</label>
+								<select type="text" class="form-select" id="opsi" onchange="generateQuery()">
+									<option>Update</option>
+									<option>Delete</option>
+								</select>
+							</div>
+							<div class="col-6 col-md-2 mb-2">
+								<label class="form-label">Tabel</label>
+								<select name="tabel" id="tabel" class="form-select" onchange="generateQuery()">
+								<option>.. pilih ..</option>
+                  <?php
+                  $tables = myquery("SHOW TABLES");
+                  foreach($tables as $table) :
+                    echo "<option>". $table['Tables_in_bugelan'] ."</option>";
+                  endforeach
+                  ?>
+								</select>
+							</div>
+							<div class="col-6 col-md-2 mb-2">
+								<label class="form-label">Kolom</label>
+								<select id="kolom" class="form-select" onchange="generateQuery()">
+									<option>.. pilih ..</option>
+								</select>
+							</div>
+							<div class="col-6 col-md-2 mb-2">
+								<label class="form-label">Data Baru</label>
+								<input id="newValue" type="text" class="form-control" onkeyup="generateQuery()">
+							</div>
+							<div class="col-6 col-md-2 mb-2">
+								<label class="form-label">Konsidi</label>
+								<select id="kondisi" class="form-select" onchange="setKondisi(this.value)">
+									<option>.. pilih ..</option>
+								</select>
+							</div>
+							<div class="col-6 col-md-2 mb-2">
+								<label class="form-label">Data Lama</label>
+								<input id="oldValue" type="text" class="form-control" onkeyup="setKondisi(this.value)">
+							</div>
+						</div>
+						<div class="row mt-3">
+							<div class="col-md-12">
+								<div class="input-group">
+									<input type="text" class="form-control" name="query" id="query"  autocomplete="off">
+									<button type="submit" id="io_submit" class="btn btn-primary float-md-end">
+									<span data-feather="save" class="feather-15"></span>
+									</button>
+									<button type="reset" id="refresh" class="btn btn-primary float-md-end" data-bs-dismiss="modal">
+									<span data-feather="refresh-cw" class="feather-15"></span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</form>
+					<br>
+					<?php flash(); ?>
+					</div>
+				</div>
+				</div>
+				<div class="accordion-item">
+				<h4 class="accordion-header" id="headingOne">
+					<button class="accordion-button <?= isset($_GET['userSQL']) ? '' : 'collapsed' ?>" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+					<b>Overview</b>
+					</button>
+				</h4>
+				<div id="collapseTwo" class="accordion-collapse collapse <?= isset($_GET['userSQL']) ? 'show' : '' ?>" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+					<div class="accordion-body overflow-auto">
+					<table class="table table-striped table-bordered">
+						<tr class="text-center">
+						<?php
+						$tables = myquery("SHOW TABLES");
+						$jum = myNumRow("SHOW TABLES");
+						foreach($tables as $table) :
+						echo "<td class='align-content-center'>". $table['Tables_in_bugelan'] ."</td>";
+						endforeach;
+						// var_dump($tables);
+						echo "</tr><tr class='text-center'>";
+						for($i=0; $i<$jum; $i++){
+						$tab = $tables[$i]['Tables_in_bugelan'];
+						$tabRows = myNumRow("SELECT * FROM ". $tab);
+						echo "<td>" . $tabRows . "</td>";
+						}
+						?>
+						</tr>
+					</table>
+					</div>
+				</div>
+				</div>
+			</div>
+		</article>
 
     <!-- Modal Entri Data-->
     <div class="modal fade" id="staticBackdropLive" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLiveLabel" aria-hidden="true">
@@ -151,5 +259,50 @@ include 'navbar.php';
 </main>
 
 <script type="text/javascript">
-  feather.replace({ 'aria-hidden': 'true' })
+  feather.replace({ 'aria-hidden': 'true' });
+  var tab = document.getElementById('tabel');
+  var kol = document.getElementById('kolom');
+  var kon = document.getElementById('kondisi');
+  var baru = document.getElementById('newValue');
+  var lama = document.getElementById('oldValue');
+  var opsi = document.getElementById('opsi');
+  tab.addEventListener('change', function(){
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function(){
+          if( xhr.readyState == 4 && xhr.status == 200 ){
+              kol.innerHTML = xhr.responseText;
+              kon.innerHTML = xhr.responseText;
+          }
+      }
+      xhr.open('GET', 'user_act.php?showCollumn=' + tab.value, true);
+      xhr.send();
+  });
+  function generateQuery(){
+    var dis = document.createAttribute('disabled');
+    if(opsi.value=="Update"){
+      document.getElementById('query').value = "UPDATE " + tab.value + " SET " + kol.value + "='" + baru.value + "'";
+      kol.removeAttribute('disabled');
+      baru.removeAttribute('disabled');
+    }else if(opsi.value=="Delete"){
+      document.getElementById('query').value = "DELETE FROM " + tab.value;
+      kol.setAttributeNode(dis);
+      baru.setAttributeNode(document.createAttribute('disabled'));
+    }
+  }
+  function setKondisi(isi){
+    var kondisi = " WHERE " + kon.value + "='" + lama.value + "'";
+    if(isi !== ""){
+      if(opsi.value=="Update"){
+        document.getElementById('query').value = "UPDATE " + tab.value + " SET " + kol.value + "='" + baru.value + "'" + kondisi;
+      }else if(opsi.value=="Delete"){
+        document.getElementById('query').value = "DELETE FROM " + tab.value + kondisi;
+      }
+    }else{
+      if(opsi.value=="Update"){
+        document.getElementById('query').value = "UPDATE " + tab.value + " SET " + kol.value + "='" + baru.value + "'";
+      }else if(opsi.value=="Delete"){
+        document.getElementById('query').value = "DELETE FROM " + tab.value;
+      }
+    }
+  }
 </script>
