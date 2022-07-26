@@ -26,9 +26,15 @@ if(date('m')<7){
         </form>
       </div>
     </div>
+  <?php flash(); 
+  if(isset($_GET['kls'])){
+      $kls=$_GET['kls'];
+      echo "<div class='btn-group float-end'><button type='button' class='btn btn-sm btn-outline-primary'><a href='siswa_lpcard?kls=". $kls ."' target='_blank' style='text-decoration:none'>Kartu Siswa</a><button class='btn btn-sm btn-primary'><span data-feather='printer'></span></button></div><br/>";
+  }
+  ?>
   </div>
-  <?php flash(); ?>
 
+<br/>
   <div class="container-fluid">
     <div class="table-responsive">
       <table class="table table-striped table-hover table-sm">
@@ -67,6 +73,7 @@ if(date('m')<7){
             <td align="right">    
               <a href="siswa_edt?id=<?php echo $s['id'] ?>" class="btn btn-sm btn-secondary <?= $u['access'] == 'User' ? 'd-none' : '' ?>"><span data-feather="edit"></span></a>
               <a href="siswa_lprt?id=<?php echo $s['id'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-primary"><span data-feather="printer"></span></a>
+              <a href="siswa_lpcard?id=<?php echo $s['id'] ?>" target="_blank" class="d-none d-xl-inline-block btn btn-sm btn-primary"><span data-feather="credit-card"></span></a>
               <?php
               if ($u['access']=="Programmer" or $u['access']=="Manager"){
               ?>

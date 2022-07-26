@@ -16,6 +16,8 @@ function createRandomPassword() {
 }
 $finalcode='FC-'.createRandomPassword();
 
+date_default_timezone_set("Asia/Jakarta");
+
 $p = date('M Y');
 $n = date('Y-m-d');
 $w = date('Y-m-d', strtotime('-1 week'));

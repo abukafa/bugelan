@@ -4,7 +4,7 @@ require('../assets/pdf/fpdf.php');
 
 $pdf = new FPDF("P","cm","A4");
 $id=$_GET['id'];
-$query=mysqli_query($conn, "select * from santri where id=" . $id);
+$query=mysqli_query($conn, "select * from siswa where id=" . $id);
 
 $pdf->SetMargins(1,1,1);
 $pdf->AliasNbPages();
