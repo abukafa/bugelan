@@ -6,10 +6,10 @@ if(date('m') < 7){
     $thn=date('Y')-1;
     $smt=1;  
 }else{
-    $thn=date('Y')-1;
+    $thn=date('Y');
     $smt=2;
 }
-$yth=$thn-1;
+$yth=$thn+1;
 ?>
 <style>
 	.form-signin {
@@ -27,8 +27,8 @@ $yth=$thn-1;
     <?php 
     if(!isset($_POST['nisn'])){
     ?>
-	<p class="display-6 text-center mb-2">Penilaian</p>
-	<p class="h5 text-center mb-3">Periode <?= $thn . '-' . $yth ?></p>
+	<p class="display-6 text-center mb-2">My Data</p>
+	<p class="h5 text-center mb-3">Period <?= $thn . '-' . $yth ?></p>
     
     <div class="form-signin text-center mt-5">  
 		<form action="" method="post">
@@ -105,6 +105,85 @@ $yth=$thn-1;
                 </div>
                 <div class="col-md-10">
                     <h6><?= $san['alamat'] . ' RT. ' . $san['rt'] . '/' . $san['rw'] . ' ' . $san['kelurahan'] . ', ' . $san['kecamatan'] ?></h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <?php 
+                    $sumTabungan = myquery("SELECT sum(if(id_siswa=". $id .", debit, 0)) as dbt, sum(if(id_siswa=". $id .", kredit, 0)) as kdt from tabungan");
+                    $sum = $sumTabungan[0];
+                    $jml = $sum['dbt'] - $sum['kdt'];
+                    ?>
+                    <h5 class="card-title mb-0">Data Tabungan</h5>
+                    <h5 class="card-title mb-0">Rp. <?= number_format($jml,0,".",",") ?></h5>
+                </div>
+                <div class="card-body py-3">
+                    <table class="table table-bordered table-striped">
+                        <tr class="text-center">
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Debit</th>
+                            <th>Kredit</th>
+                        </tr>
+                        <?php 
+                        $no=1;
+                        $tabungan = myquery("SELECT * from tabungan where id_siswa='$id' order by tgl asc");
+                        foreach($tabungan as $tab) :
+                        ?>
+                        <tr class="text-center">
+                            <td><?= $no ?></td>
+                            <td><?= $tab['tgl'] ?></td>
+                            <td class="text-end"><?= number_format($tab['debit'],0,".",",") ?></td>
+                            <td class="text-end"><?= number_format($tab['kredit'],0,".",",") ?></td>
+                        </tr>
+                        <?php 
+                        $no++;
+                        endforeach;
+                        ?>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col mb-3">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between">
+                    <?php 
+                    $sumAbsen = myquery("SELECT count(*) as con from absen where id_siswa='$id' and ket=''");
+                    $suma = $sumAbsen[0];
+                    ?>
+                    <h5 class="card-title mb-0">Data Absensi</h5>
+                    <h5 class="card-title mb-0">Hadir : <?= $suma['con'] ?></h5>
+                </div>
+                <div class="card-body py-3">
+                    <table class="table table-bordered table-striped">
+                        <tr class="text-center">
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Absen</th>
+                            <th>Keterangan</th>
+                        </tr>
+                        <?php 
+                        $no=1;
+                        $absen = myquery("SELECT * from absen where id_siswa='$id' and ket<>'' order by date");
+                        foreach($absen as $abs) :
+                        ?>
+                        <tr class="text-center">
+                            <td><?= $no ?></td>
+                            <td><?= $abs['date'] ?></td>
+                            <td><?= $abs['ket'] ?></td>
+                            <td class="text-start"><?= $abs['note'] ?></td>
+                        </tr>
+                        <?php 
+                        $no++;
+                        endforeach;
+                        ?>
+                    </table>
                 </div>
             </div>
         </div>

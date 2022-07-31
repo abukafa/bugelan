@@ -55,9 +55,9 @@ if(date('m')<7){
             <?php 
             if(isset($_GET['kls'])){
               $tahun = $_GET['kls'];
-              $query = "select * from siswa where tahun='$tahun' order by tahun, jk, nama";
+              $query = "select * from siswa where tahun='$tahun' order by jk, nama";
             }else{
-              $query = "select * from siswa order by tahun, jk, nama";
+              $query = "select * from siswa order by tahun DESC, jk, nama";
             }
             $siswa=mysqli_query($GLOBALS["___mysqli_ston"], $query);
             $no=1;

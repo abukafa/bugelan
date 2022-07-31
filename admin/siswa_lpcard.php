@@ -50,8 +50,8 @@ $pdf->ln(0.5);
 $pdf->SetFont('Arial','B',9);
 
 require_once('../assets/phpqrcode-master/qrlib.php');
-QRcode::png($s['nisn'], $id.'.png', 'M', 2, 2);
-$pdf->Image($id.'.png', 1.8, 6.8, 1.9, 1.9, 'png');
+QRcode::png($s['nisn'], '../public/qrcode/'. $id .'.png', 'M', 2, 2);
+$pdf->Image('../public/qrcode/'.$id.'.png', 1.8, 6.8, 1.9, 1.9, 'png');
 
 $pdf->setAutoPageBreak(false);
 $pdf->AddPage();

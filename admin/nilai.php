@@ -6,10 +6,11 @@ if(date('m') < 7){
     $thn=date('Y')-1;
     $smt=1;  
 }else{
-    $thn=date('Y')-1;
+    $thn=date('Y');
     $smt=2;
 }
 $yth=$thn-1;
+$alm=$thn-3;
 ?>
 <style>
 	.form-signin {
@@ -64,9 +65,9 @@ if(!isset($_GET['nisn'])){
                 <?php 
                 if(isset($_GET['kls'])){
                 $tahun = $_GET['kls'];
-                $query = "select * from siswa where tahun='$tahun' order by tahun, jk, nama";
+                $query = "select * from siswa where tahun='$tahun' order by jk, nama";
                 }else{
-                $query = "select * from siswa order by tahun, jk, nama";
+                $query = "select * from siswa where tahun<>'$alm' order by tahun, jk, nama";
                 }
                 $siswa=mysqli_query($GLOBALS["___mysqli_ston"], $query);
                 $no=1;

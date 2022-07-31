@@ -7,6 +7,7 @@ if(date('m')<7){
 }else{
   $thn=date('Y');
 }
+$alm=$thn-3;
 ?>
 <main class="content">
 	<div class="container mt-5">
@@ -46,13 +47,13 @@ if(date('m')<7){
 						$tahun=mysqli_real_escape_string($GLOBALS["___mysqli_ston"], $_GET['thn']);
 						$brg=mysqli_query($GLOBALS["___mysqli_ston"], "select * from siswa where tahun = '$tahun' order by nama");
 					}else{
-						$jumlah_record=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * from siswa");
+						$jumlah_record=mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * from siswa where tahun <> '$alm'");
 						$per_hal=20;
 						$jum=mysqli_num_rows($jumlah_record);
 						$halaman=ceil($jum / $per_hal);
 						$page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
 						$start = ($page - 1) * $per_hal;
-						$brg=mysqli_query($GLOBALS["___mysqli_ston"], "select * from siswa order by tahun, nama limit $start, $per_hal");
+						$brg=mysqli_query($GLOBALS["___mysqli_ston"], "select * from siswa where tahun <> '$alm' order by tahun, nama limit $start, $per_hal");
 					}
 					$no=1;
 					while($b=mysqli_fetch_array($brg)){

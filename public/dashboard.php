@@ -9,6 +9,7 @@ if(date('m')<7){
 $satu=$thn;
 $dua=$thn-1;
 $tiga=$thn-2;
+$alm=$thn-3;
 ?>
 <main class="content">
 	<div class="container mt-5">
@@ -52,12 +53,12 @@ $tiga=$thn-2;
       <div class="card-body">
           <table class="table table-bordered table-striped">
               <thead>
-                  <tr class="text-center">
-                      <th class="d-none d-md-table-cell">NIG</th>
-                      <th>Nama</th>
-                      <th class="d-none d-md-table-cell">JK</th>
-                      <th>Data</th>
-                  </tr>
+                <tr class="text-center">
+                  <th class="d-none d-md-table-cell">NIG</th>
+                  <th>Nama</th>
+                  <th class="d-none d-md-table-cell">JK</th>
+                  <th>Data</th>
+                </tr>
               </thead>
               <tbody>
                   <?php
@@ -144,11 +145,11 @@ var JKChart = new Chart(ctx, {
             label: '',
             data: [
                 <?php 
-                $jumlah_laki = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM siswa WHERE jk='L'");
+                $jumlah_laki = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM siswa WHERE tahun<>'$alm' and jk='L'");
                 echo mysqli_num_rows($jumlah_laki);
                 ?>, 
                 <?php 
-                $jumlah_perempuan = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM siswa WHERE jk='P'");
+                $jumlah_perempuan = mysqli_query($GLOBALS["___mysqli_ston"], "SELECT * FROM siswa WHERE tahun<>'$alm' and jk='P'");
                 echo mysqli_num_rows($jumlah_perempuan);
                 ?>
             ],

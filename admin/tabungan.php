@@ -13,6 +13,7 @@ if(date('m')<7){
 }else{
   $thn=date('Y');
 }
+$alm=$thn-3;
 ?>
 <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
   <div class="container-fluid">
@@ -173,7 +174,7 @@ if(date('m')<7){
 						<select name="ids" id="ids" class="form-control form-control-sm" onchange="changeValue(this.value)">
 							<option value=0>-Pilih-</option>
 							<?php 
-							$brg=mysqli_query($conn, "select * from siswa order by tahun, nama");
+							$brg=mysqli_query($conn, "select * from siswa where tahun<>'$alm' order by tahun, nama");
 							$jsArray = "var sant = new Array();\n";        
 							while($b=mysqli_fetch_array($brg)){
 							echo '<option value="' . $b['id'] . '">' . $b['nama'] . '</option>';
