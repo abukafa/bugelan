@@ -59,7 +59,7 @@ $pdf->Image('../assets/logo/card_back.png',0,0,5.5,9);
 $pdf->ln(4.5);
 $pdf->SetTextColor(0,0,0);
 $pdf->SetFont('Arial','',7);
-$pdf->Cell(1,0.35,'NISN',0,0,'L');
+$pdf->Cell(1,0.35,'NIS',0,0,'L');
 $pdf->Cell(0.2,0.35,': ',0,0,'L');
 $pdf->multiCell(3.5,0.35, $s['nisn'] ,0,'L');
 $pdf->Cell(1,0.35,'Nama',0,0,'L');
@@ -78,7 +78,7 @@ $pdf->multiCell(3.5,0.35, $s['alamat'] .', '. $s['kelurahan'] .', '. $s['kecamat
 
 if(isset($_GET['kls'])){
   $kls=$_GET['kls'];
-  $print="Kelas " . $thn-$kls+7;
+  $print= 'Kartu Siswa Kls ' . ($thn-$kls)+7;
 }else if(isset($_GET['id'])){
   $ids=$_GET['id'];
   $print=$s['nama'];
@@ -86,6 +86,6 @@ if(isset($_GET['kls'])){
 }
 
 }
-$pdf->Output("kartu siswa ". $print .".pdf","I");
+$pdf->Output($print .".pdf","I");
 ?>
 

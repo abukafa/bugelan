@@ -34,7 +34,7 @@ $alm=$thn-3;
 			<div class="card-body">
 				<table class="table table-hover table-strip">
 					<tr>
-						<th class="d-none d-md-table-cell">NISN</th>
+						<th class="d-none d-md-table-cell">Nomor Induk</th>
 						<th>Nama Siswa</th>
 						<th class="d-none d-md-table-cell">Kelas</th>
 						<th class="d-none d-md-table-cell">TTL</th>

@@ -38,7 +38,7 @@ if(date('m')<7){
 							<input type="text" class="form-control" name="nama" value="<?= ($id<>'') ? $si['nama'] : '' ?>">
 						</div>
 						<div class="col-xl-4 mb-2">
-							<label class="form-label">NISN</label>
+							<label class="form-label">Nomor Induk</label>
 							<input type="text" class="form-control" name="nisn" value="<?= ($id<>'') ? $si['nisn'] : '' ?>">
 						</div>
 						<div class="col-xl-4 mb-2">

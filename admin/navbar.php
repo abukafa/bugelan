@@ -79,7 +79,7 @@
       $url = explode('/', $url);
       $myurl = substr($url[3],0,4);
       ?> 
-      <div class="row <?php if(substr($url[3],0,10) === 'nilai?nisn' || substr($url[3],0,10) === 'absensi?go'){ echo 'd-md-none'; } ?>">
+      <div class="row <?php if(substr($url[3],0,10) === 'nilai?nisn' || substr($url[3],0,10) === 'absensi?go' || substr($url[3],0,14) === 'absensiguru?go'){ echo 'd-md-none'; } ?>">
         <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
           <div class="position-sticky pt-md-4">
             <ul class="nav flex-column">

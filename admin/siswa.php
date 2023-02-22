@@ -17,13 +17,16 @@ if(date('m')<7){
         </button></a>
         </div>
         <form action="" method="get">
+        <div class="input-group">
           <select type="submit" name="kls" class="btn btn-sm btn-outline-secondary" onchange="this.form.submit()">
             <option value="">.. Filter ..</option>
             <option value="<?= $thn-2 ?>">Kelas 9</option>
             <option value="<?= $thn-1 ?>">Kelas 8</option>
             <option value="<?= $thn ?>">Kelas 7</option>
           </select>
-        </form>
+          <a href="siswa_exp?thn=<?= isset($_GET['kls']) ? $_GET['kls'] : '' ?>" type="button" class="btn btn-sm btn-secondary"><span data-feather="download"></span></a>
+        </div>
+      </form>
       </div>
     </div>
   <?php flash(); 
@@ -41,7 +44,7 @@ if(date('m')<7){
         <thead>
           <tr>
             <th scope="col" class="d-none d-md-table-cell">No</th>
-            <th scope="col">NISN</th>
+            <th scope="col">Nomor Induk</th>
             <th scope="col">Nama</th>
             <th scope="col" class="d-none d-md-table-cell">JK</th>
             <th scope="col" class="d-none d-md-table-cell">Kelas</th>

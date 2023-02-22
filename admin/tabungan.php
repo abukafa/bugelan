@@ -38,7 +38,24 @@ $alm=$thn-3;
   <?php flash(); 
   if(isset($_GET['tgl_awl'])){
       $awl=$_GET['tgl_awl'];
-      echo "<div class='btn-group float-end'><button type='button' class='btn btn-sm btn-outline-primary'><a href='tabungan_laphis?tgl_awal=". $awl ."&tgl_ahir=". $n ."' target='_blank' style='text-decoration:none'>Rekap</a></button><button type='button' class='btn btn-sm btn-outline-primary'><a href='tabungan_lapsum' target='_blank' style='text-decoration:none'>Index</a></button><button class='btn btn-sm btn-primary'><span data-feather='printer'></span></button></div><br/>";
+      $jum_sum=mysqli_query($conn, "SELECT sum(debit) as dbt, sum(kredit) as kdt from tabungan where tgl between '$awl' and '$n' ");
+while($see=mysqli_fetch_assoc($jum_sum)){
+  $jml_sum = $see['dbt'] - $see['kdt'];
+}
+      echo "
+      <div class='d-flex justify-content-between'>
+      <h6>" . $awl . " s.d. " . $n . " : " . number_format($jml_sum,0,'',',') . "</h6>
+      <div class='btn-group float-end'>
+      <button type='button' class='btn btn-sm btn-outline-primary'>
+        <a href='tabungan_laphis?tgl_awal=". $awl ."&tgl_ahir=". $n ."' target='_blank' style='text-decoration:none'>Rekap</a>
+      </button>
+      <button type='button' class='btn btn-sm btn-outline-primary'>
+        <a href='tabungan_lapsum' target='_blank' style='text-decoration:none'>Index</a>
+      </button>
+      <button class='btn btn-sm btn-primary'><span data-feather='printer'></span></button>
+      </div>
+      </div>
+      <br/>";
   }
   ?>
   </div>
@@ -77,7 +94,7 @@ $alm=$thn-3;
                 ?>
                 <tr>
                     <td class="d-none d-md-table-cell"><?php echo $b['id'] ?></td>
-                    <td class="d-none d-md-table-cell"><?php echo $b['tgl'] ?></td>
+                    <td><?php echo $b['tgl'] ?></td>
                     
                     <td><?php echo substr($b['nama'], 0, 20) ?></td>
                     <td class="text-end"><?php echo number_format($b['debit'],0,'',','); ?></td>		
@@ -167,7 +184,7 @@ $alm=$thn-3;
 				<form action="tabungan_act?tambah" method="post">	
 					<div class="form-group mb-2">
 						<label class="form-label">Tanggal</label>
-						<input name="tgl" id="tgl" type="text" class="form-control form-control-sm" autocomplete="off">
+						<input name="tgl" id="tgl" type="text" class="form-control form-control-sm" value="<?= date('Y-m-d') ?>" autocomplete="off">
 					</div>			
 					<div class="form-group mb-2">
 						<label class="form-label">Siswa</label>								

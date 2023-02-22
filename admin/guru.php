@@ -16,6 +16,8 @@ if(date('m')<7){
           Tambah Baru
         </button></a>
         </div>
+        <a href="guru_lpcard" target="_blank" class="btn btn-sm btn-outline-secondary me-2"><span data-feather="credit-card"></span></a>
+        <a href="absensiguru" class="btn btn-sm btn-secondary me-2 <?= $u['access'] == 'User' ? 'd-none' : '' ?>"><span data-feather="airplay"></span></a>
       </div>
     </div>
   </div>

@@ -33,27 +33,30 @@ if (isset($_POST['nisn'])) {
     if(mysqli_num_rows($result) > 0){
         flasher('Gagal!', 'Anda Sudah Mengabsen', 'warning');
         header('location:absensi?go=' . $go);
-    }
-
-    $siswa = mysqli_query($conn, "SELECT * FROM siswa WHERE nisn='$nisn'");
-    while($s=mysqli_fetch_array($siswa)){
-        $ids = $s['id'];
-        $nama = $s['nama'];
-    }
-
-    if(mysqli_num_rows($siswa) > 0){
-        mysqli_query($conn, "INSERT into absen VALUES('', '$tgl', '$jam', '$sesi', '$late', '$ids', '$nisn', '$nama', '$ket', '$note')");
-        if(mysqli_affected_rows($conn) > 0){
-            if($ket==''){
-                flasher($nama, 'Selamat Datang', 'success');
-            }else{
-                flasher($nama, $note, 'success');
-            }
-        }
-        header('location:absensi?go=' . $go);
     }else{
-        flasher('Gagal!', 'Coba lagi ya', 'error');
-        header('location:absensi?go=' . $go);
+
+    
+
+        $siswa = mysqli_query($conn, "SELECT * FROM siswa WHERE nisn='$nisn'");
+        while($s=mysqli_fetch_array($siswa)){
+            $ids = $s['id'];
+            $nama = $s['nama'];
+        }
+
+        if(mysqli_num_rows($siswa) > 0){
+            mysqli_query($conn, "INSERT into absen VALUES('', '$tgl', '$jam', '$sesi', '$late', '$ids', '$nisn', '$nama', '$ket', '$note')");
+            if(mysqli_affected_rows($conn) > 0){
+                if($ket==''){
+                    flasher($nama, 'Selamat Datang', 'success');
+                }else{
+                    flasher($nama, $note, 'success');
+                }
+            }
+            header('location:absensi?go=' . $go);
+        }else{
+            flasher('Gagal!', 'Coba lagi ya', 'error');
+            header('location:absensi?go=' . $go);
+        }
     }
 }
 

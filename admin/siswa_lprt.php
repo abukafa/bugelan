@@ -37,7 +37,7 @@ $pdf->Cell(4, 0.8, '', 0, 0, 'C');
 $pdf->Cell(3, 0.8, 'Nama Lengkap', 0, 0, 'L');
 $pdf->Cell(12, 0.8,": " . $lihat['nama'],0, 1, 'L');
 $pdf->Cell(4, 0.8, '', 0, 0, 'C');
-$pdf->Cell(3, 0.8, 'NISN', 0, 0, 'L');
+$pdf->Cell(3, 0.8, 'Nomor Induk', 0, 0, 'L');
 $pdf->Cell(12, 0.8,": " . $lihat['nisn'],0, 1, 'L');
 $pdf->Cell(4, 0.8, '', 0, 0, 'C');
 $pdf->Cell(3, 0.8, 'Jenis Kelamin', 0, 0, 'L');

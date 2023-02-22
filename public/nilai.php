@@ -71,7 +71,7 @@ $yth=$thn+1;
         <div class="col-5 col-md-10">
             <div class="row">
                 <div class="d-none d-md-inline col-md-2">
-                    <h6>NISN</h6>
+                    <h6>Nomor Induk</h6>
                 </div>
                 <div class="col-md-10">
                     <h6><?= $nisn ?></h6>
