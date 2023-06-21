@@ -87,6 +87,8 @@ $routes->get('/admin/jadwal', 'OfficeKalender::jadwal');
 
 $routes->get('/admin/laporan', 'OfficeLaporan::index');
 
+$routes->post('/admin/rekap/absensi', 'AdminRekap::absensi');
+
 $routes->get('/admin/pengguna', 'OfficeUser::index');
 $routes->get('/admin/pengguna/(:num)', 'OfficeUser::get/$1');
 $routes->post('/admin/pengguna/', 'OfficeUser::insert');
